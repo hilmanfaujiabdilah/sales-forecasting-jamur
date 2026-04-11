@@ -1,0 +1,30 @@
+forecasting_backend/
+├── run.py                        ← Entry point
+├── requirements.txt
+├── .env.example
+│
+├── config/
+│   └── database.py               ← Connection pool PostgreSQL
+│
+├── migrations/
+│   └── create_database.sql       ← DDL + seed jenis_bahan_baku
+│
+└── app/
+    ├── __init__.py               ← Application factory (create_app)
+    │
+    ├── models/                   ← Layer M: akses DB langsung
+    │   ├── kumbung_model.py
+    │   ├── penjualan_model.py
+    │   ├── prediksi_model.py
+    │   ├── rekomendasi_model.py  ← RekomendasiModel + BahanBakuModel
+    │   ├── produksi_model.py
+    │   └── model_regresi.py      ← Wrapper scikit-learn
+    │
+    ├── controllers/              ← Layer C: routing + business logic
+    │   ├── kumbung_controller.py
+    │   ├── penjualan_controller.py
+    │   ├── prediksi_controller.py ← Pipeline utama forecasting
+    │   └── produksi_controller.py
+    │
+    └── utils/
+        └── response.py           ← response_sukses / response_error
