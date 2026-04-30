@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Hijau Utama -->
+    <color name="hijau_utama">#2E7D32</color>
+    <color name="hijau_terang">#4CAF50</color>
+    <color name="hijau_muda">#A5D6A7</color>
+    <color name="hijau_latar">#E8F5E9</color>
+    <color name="hijau_gelap">#1B5E20</color>
+
+    <!-- Putih & Abu -->
+    <color name="putih">#FFFFFF</color>
+    <color name="abu_terang">#F5F5F5</color>
+    <color name="abu_sedang">#E0E0E0</color>
+    <color name="abu_teks">#757575</color>
+
+    <!-- Aksen -->
+    <color name="oranye_aksen">#FF6F00</color>
+    <color name="biru_grafik">#1565C0</color>
+    <color name="merah_error">#C62828</color>
+    <color name="teks_utama">#212121</color>
+    <color name="teks_sekunder">#616161</color>
+</resources>

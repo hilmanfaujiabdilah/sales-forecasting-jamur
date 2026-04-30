@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/berandaFragment"  android:icon="@drawable/ic_beranda"  android:title="Beranda"/>
+    <item android:id="@+id/penjualanFragment" android:icon="@drawable/ic_penjualan" android:title="Penjualan"/>
+    <item android:id="@+id/prediksiFragment"  android:icon="@drawable/ic_prediksi"  android:title="Prediksi"/>
+    <item android:id="@+id/produksiFragment"  android:icon="@drawable/ic_produksi"  android:title="Produksi"/>
+</menu>

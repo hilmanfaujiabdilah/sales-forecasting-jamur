@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/abu_terang">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Card Info Bulan -->
+        <androidx.cardview.widget.CardView
+            style="@style/CardHijau"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_sedang">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_sedang">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Penjualan"
+                        android:textSize="12sp"
+                        android:textColor="@color/hijau_gelap"/>
+                    <TextView
+                        android:id="@+id/tvTotalPenjualan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 kg"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/hijau_gelap"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Prediksi Bulan Ini"
+                        android:textSize="12sp"
+                        android:textColor="@color/hijau_gelap"/>
+                    <TextView
+                        android:id="@+id/tvPrediksiPeriode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="- kg"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/oranye_aksen"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- RecyclerView Penjualan Harian -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPenjualan"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="@dimen/margin_sedang"
+            android:paddingBottom="80dp"
+            android:clipToPadding="false"/>
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Belum ada data penjualan di bulan ini"
+            android:textSize="14sp"
+            android:textColor="@color/abu_teks"
+            android:gravity="center"
+            android:padding="@dimen/margin_besar"
+            android:visibility="gone"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <!-- FAB Tambah Penjualan -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabTambah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/margin_sedang"
+        android:text="Tambah Penjualan"
+        app:icon="@drawable/ic_tambah"
+        android:backgroundTint="@color/hijau_utama"
+        android:textColor="@color/putih"
+        app:iconTint="@color/putih"
+        app:layout_anchorGravity="bottom|end"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:padding="24dp" android:background="@color/putih">
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Tambah Data Produksi" style="@style/TeksJudul" android:layout_marginBottom="16dp" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Tanggal" style="@style/TeksLabel" />
+    <EditText android:id="@+id/etTanggal"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:inputType="date" android:layout_marginBottom="12dp" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Jumlah Produksi (kg)" style="@style/TeksLabel" />
+    <EditText android:id="@+id/etJumlah"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:inputType="numberDecimal" android:hint="0.00" android:layout_marginBottom="20dp" />
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button android:id="@+id/btnBatal"
+            android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Batal" android:layout_marginEnd="8dp"
+            style="@android:style/Widget.Button" />
+        <Button android:id="@+id/btnSimpan" style="@style/TombolUtama"
+            android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Simpan" />
+    </LinearLayout>
+</LinearLayout>

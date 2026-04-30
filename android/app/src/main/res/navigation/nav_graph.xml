@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/berandaFragment">
+
+    <fragment
+        android:id="@+id/berandaFragment"
+        android:name="com.example.salesforecastingjamur.ui.beranda.BerandaFragment"
+        android:label="Beranda"
+        tools:layout="@layout/fragment_beranda"/>
+
+    <fragment
+        android:id="@+id/penjualanFragment"
+        android:name="com.example.salesforecastingjamur.ui.penjualan.PenjualanFragment"
+        android:label="Penjualan"
+        tools:layout="@layout/fragment_penjualan">
+        <action
+            android:id="@+id/action_penjualan_to_detail"
+            app:destination="@id/detailPenjualanFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailPenjualanFragment"
+        android:name="com.example.salesforecastingjamur.ui.penjualan.DetailPenjualanFragment"
+        android:label="Detail Penjualan"
+        tools:layout="@layout/fragment_detail_penjualan">
+        <argument
+            android:name="bulan"
+            app:argType="integer"/>
+        <argument
+            android:name="tahun"
+            app:argType="integer"/>
+        <argument
+            android:name="prediksiId"
+            app:argType="integer"
+            android:defaultValue="-1"/>
+        <argument
+            android:name="predPeriode1"
+            app:argType="float"
+            android:defaultValue="0"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/prediksiFragment"
+        android:name="com.example.salesforecastingjamur.ui.prediksi.PrediksiFragment"
+        android:label="Prediksi"
+        tools:layout="@layout/fragment_prediksi">
+        <action
+            android:id="@+id/action_prediksi_to_detail"
+            app:destination="@id/detailPrediksiFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailPrediksiFragment"
+        android:name="com.example.salesforecastingjamur.ui.prediksi.DetailPrediksiFragment"
+        android:label="Detail Prediksi"
+        tools:layout="@layout/fragment_detail_prediksi">
+        <argument
+            android:name="prediksiId"
+            app:argType="integer"/>
+        <argument
+            android:name="rekomendasiId"
+            app:argType="integer"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/produksiFragment"
+        android:name="com.example.salesforecastingjamur.ui.produksi.ProduksiFragment"
+        android:label="Produksi"
+        tools:layout="@layout/fragment_produksi">
+        <action
+            android:id="@+id/action_produksi_to_detail"
+            app:destination="@id/detailProduksiFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailProduksiFragment"
+        android:name="com.example.salesforecastingjamur.ui.produksi.DetailProduksiFragment"
+        android:label="Detail Produksi"
+        tools:layout="@layout/fragment_detail_produksi">
+        <argument
+            android:name="bulan"
+            app:argType="integer"/>
+        <argument
+            android:name="tahun"
+            app:argType="integer"/>
+        <argument
+            android:name="rekomendasiId"
+            app:argType="integer"/>
+    </fragment>
+</navigation>

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Sales Forecasting Jamur</string>
+    <string name="menu_beranda">Beranda</string>
+    <string name="menu_penjualan">Penjualan</string>
+    <string name="menu_prediksi">Perdiksi</string>
+    <string name="menu_produksi">Produksi</string>
+    <string name="tambah_penjualan">Tambah Penjualan</string>
+    <string name="tambah_produksi">Tambah Produksi</string>
+    <string name="proses_prediksi">Proses Prediksi</string>
+    <string name="loading">Memuat data...</string>
+    <string name="tidak_ada_data">Belum ada data</string>
+    <string name="berhasil_simpan">Data berhasil disimpan</string>
+    <string name="prediksi_bukan_akhir_bulan">Prediksi hanya dapat dilakukan pada akhir bulan</string>
+</resources>

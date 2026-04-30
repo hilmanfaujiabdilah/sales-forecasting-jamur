@@ -1,0 +1,48 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.SalesForecastingJamur" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/hijau_utama</item>
+        <item name="colorPrimaryVariant">@color/hijau_gelap</item>
+        <item name="colorOnPrimary">@color/putih</item>
+        <item name="colorSecondary">@color/hijau_terang</item>
+        <item name="colorOnSecondary">@color/putih</item>
+        <item name="android:colorBackground">@color/putih</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="CardHijau" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/hijau_latar</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">2dp</item>
+    </style>
+
+    <style name="CardPutih" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/putih</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">3dp</item>
+    </style>
+
+    <!-- ← Tambahkan style berikut -->
+
+    <style name="TeksJudul">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/hijau_utama</item>
+    </style>
+
+    <style name="TeksLabel">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/teks_sekunder</item>
+    </style>
+
+    <style name="TombolUtama">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:backgroundTint">@color/hijau_utama</item>
+        <item name="android:textColor">@color/putih</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <!--    <style name="Theme.SalesForecastingJamur" parent="Base.Theme.SalesForecastingJamur" />-->
+</resources>

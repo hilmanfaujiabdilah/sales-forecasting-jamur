@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeRefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/abu_terang">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_sedang">
+
+            <!-- Header Salam -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selamat Datang 👋"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/teks_utama"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/tvTanggalHariIni"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="@color/abu_teks"
+                android:layout_marginBottom="@dimen/margin_sedang"/>
+
+            <!-- Card Grafik Penjualan 12 Bulan -->
+            <androidx.cardview.widget.CardView
+                style="@style/CardPutih"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_sedang">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_sedang">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Grafik Penjualan 12 Bulan Terakhir"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/hijau_gelap"
+                        android:layout_marginBottom="@dimen/margin_kecil"/>
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/chartPenjualan"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/tinggi_grafik"/>
+
+                    <!-- Legenda -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="3dp"
+                            android:background="@color/hijau_terang"
+                            android:layout_gravity="center_vertical"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" Penjualan Aktual"
+                            android:textSize="12sp"
+                            android:textColor="@color/teks_sekunder"
+                            android:layout_marginEnd="16dp"/>
+                        <View
+                            android:layout_width="16dp"
+                            android:layout_height="3dp"
+                            android:background="@color/oranye_aksen"
+                            android:layout_gravity="center_vertical"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" Prediksi"
+                            android:textSize="12sp"
+                            android:textColor="@color/teks_sekunder"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Label Ringkasan -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ringkasan Periode Ini"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/teks_utama"
+                android:layout_marginBottom="@dimen/margin_kecil"/>
+
+            <!-- Card Penjualan vs Prediksi -->
+            <androidx.cardview.widget.CardView
+                style="@style/CardPutih"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_kecil">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_sedang">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_penjualan"
+                            app:tint="@color/hijau_utama"
+                            android:layout_marginEnd="8dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Penjualan"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/hijau_utama"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Aktual"
+                                android:textSize="12sp"
+                                android:textColor="@color/abu_teks"/>
+                            <TextView
+                                android:id="@+id/tvPenjualanAktual"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="- kg"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/hijau_utama"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Prediksi"
+                                android:textSize="12sp"
+                                android:textColor="@color/abu_teks"/>
+                            <TextView
+                                android:id="@+id/tvPenjualanPrediksi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="- kg"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/oranye_aksen"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card Produksi vs Rekomendasi -->
+            <androidx.cardview.widget.CardView
+                style="@style/CardPutih"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_sedang">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_sedang">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_produksi"
+                            app:tint="@color/biru_grafik"
+                            android:layout_marginEnd="8dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Produksi Baglog"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/biru_grafik"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rekomendasi"
+                                android:textSize="12sp"
+                                android:textColor="@color/abu_teks"/>
+                            <TextView
+                                android:id="@+id/tvBaglogRekomendasi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="- baglog"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/biru_grafik"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Baglog Baru"
+                                android:textSize="12sp"
+                                android:textColor="@color/abu_teks"/>
+                            <TextView
+                                android:id="@+id/tvBaglogBaru"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="- baglog"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/oranye_aksen"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Loading indicator -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

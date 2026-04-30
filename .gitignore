@@ -1,0 +1,19 @@
+# ===== ANDROID =====
+android/.gradle/
+android/build/
+android/local.properties
+android/*.iml
+android/.idea/
+android/captures/
+
+# ===== BACKEND (Python) =====
+backend/venv/
+backend/env/
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+
+# ===== GENERAL =====
+.DS_Store
+Thumbs.db
+*.log

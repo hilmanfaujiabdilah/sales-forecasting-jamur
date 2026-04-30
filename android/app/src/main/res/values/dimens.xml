@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_kecil">8dp</dimen>
+    <dimen name="margin_sedang">16dp</dimen>
+    <dimen name="margin_besar">24dp</dimen>
+    <dimen name="radius_card">12dp</dimen>
+    <dimen name="tinggi_grafik">220dp</dimen>
+    <dimen name="tinggi_appbar">56dp</dimen>
+</resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingVertical="8dp"
+    android:gravity="center_vertical">
+
+    <View
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:background="@drawable/dot_hijau"
+        android:layout_marginEnd="12dp"/>
+
+    <TextView
+        android:id="@+id/tvNamaBahan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="14sp"
+        android:textColor="@color/teks_utama"/>
+
+    <TextView
+        android:id="@+id/tvJumlahBahan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/hijau_gelap"/>
+</LinearLayout>

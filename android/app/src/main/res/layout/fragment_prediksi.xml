@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeRefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/abu_terang">
+
+        <!-- Tombol Proses Prediksi -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnProsesPrediksi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_sedang"
+            android:text="Proses Prediksi Bulan Ini"
+            android:textSize="15sp"
+            android:backgroundTint="@color/hijau_utama"
+            app:icon="@drawable/ic_prediksi"
+            app:iconGravity="textStart"
+            android:padding="14dp"/>
+
+        <!-- Info jika bukan akhir bulan -->
+        <TextView
+            android:id="@+id/tvInfoAkhirBulan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⚠ Prediksi hanya dapat dilakukan pada tanggal terakhir bulan berjalan"
+            android:textSize="12sp"
+            android:textColor="@color/oranye_aksen"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/margin_sedang"
+            android:paddingBottom="8dp"
+            android:visibility="gone"/>
+
+        <!-- Riwayat Prediksi -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Riwayat Prediksi"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/teks_utama"
+            android:paddingHorizontal="@dimen/margin_sedang"
+            android:paddingBottom="8dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPrediksi"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="@dimen/margin_sedang"
+            android:paddingBottom="@dimen/margin_sedang"
+            android:clipToPadding="false"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+    </LinearLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
