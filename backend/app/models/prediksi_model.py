@@ -43,6 +43,19 @@ class PrediksiModel:
             return [p.to_dict() for p in hasil]
 
     @staticmethod
+    def get_by_bulan_tahun(bulan: int, tahun: int):
+        with get_session() as session:
+            prediksi = session.execute(
+                select(Prediksi)
+                .where(
+                    extract("month", Prediksi.periode_prediksi) == bulan,
+                    extract("year", Prediksi.periode_prediksi) == tahun,
+                )
+                .limit(1)
+            ).scalar_one_or_none()
+            return prediksi.to_dict() if prediksi else None
+
+    @staticmethod
     def get_latest():
         with get_session() as session:
             prediksi = session.execute(

@@ -1,5 +1,4 @@
 import math
-import calendar
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from flask import Blueprint, request
@@ -31,10 +30,17 @@ prediksi_bp = Blueprint("prediksi", __name__, url_prefix="/api/prediksi")
 # Acuan produksi
 BAGLOG_ACUAN        = 2500   # jumlah baglog dalam satu siklus acuan
 HASIL_ACUAN_KG      = 25     # hasil panen (kg) dari BAGLOG_ACUAN baglog
+PANEN_PER_BULAN     = 2
+SIKLUS_HIDUP_BULAN  = 4
+
+HASIL_PANEN_PER_BAGLOG_PER_PANEN = HASIL_ACUAN_KG / BAGLOG_ACUAN  # → 0.01
+HASIL_PANEN_PER_BAGLOG_PER_BULAN = HASIL_PANEN_PER_BAGLOG_PER_PANEN * PANEN_PER_BULAN  # → 0.02
+USIA_AKTIF_MAKS_BULAN = SIKLUS_HIDUP_BULAN - 1  # → 3 bulan
+
 
 # Hasil panen per baglog (kg):
 #   25 kg / 2500 baglog = 0.01 kg per baglog
-HASIL_PANEN_PER_BAGLOG = HASIL_ACUAN_KG / BAGLOG_ACUAN   # → 0.01
+# HASIL_PANEN_PER_BAGLOG = HASIL_ACUAN_KG / BAGLOG_ACUAN   # → 0.01
 
 # Rasio kebutuhan bahan baku per baglog
 # Diturunkan dari: jumlah_bahan_baku / BAGLOG_ACUAN
@@ -48,6 +54,7 @@ RASIO_BAHAN_BAKU = {
     "Kapas Majun"  : (3    / BAGLOG_ACUAN, "kg"    ),  # 0.0012
     "Kayu Bakar"   : (1    / BAGLOG_ACUAN, "mobil" ),  # 0.0004
     "Karet"        : (1    / BAGLOG_ACUAN, "kg"    ),  # 0.0004
+    "Plastik": (1 / BAGLOG_ACUAN, "pack"),  # 0.0004
 }
 
 # HELPER FUNCTION
@@ -55,7 +62,9 @@ def _hitung_estimasi_baglog(pred_penjualan2: float) -> int:
     """
     Hitung estimasi kebutuhan total baglog berdasarkan prediksi penjualan.
     """
-    return math.ceil(pred_penjualan2 / HASIL_PANEN_PER_BAGLOG)
+    if HASIL_PANEN_PER_BAGLOG_PER_BULAN <= 0:
+        raise ValueError("HASIL_PANEN_PER_BAGLOG_PER_BULAN harus > 0")
+    return math.ceil(pred_penjualan2 / HASIL_PANEN_PER_BAGLOG_PER_BULAN)
 
 def _hitung_baglog_aktif(periode_pred2: date) -> int:
     """
@@ -66,7 +75,7 @@ def _hitung_baglog_aktif(periode_pred2: date) -> int:
                            WHERE tanggal_produksi BETWEEN batas_awal AND batas_akhir
     """
 
-    batas_awal = periode_pred2 - relativedelta(months=3)
+    batas_awal = periode_pred2 - relativedelta(months=USIA_AKTIF_MAKS_BULAN)
     batas_akhir = periode_pred2 - relativedelta(months=1)
 
     # ambil semua produksi yang ada pada rentang batas_awal - batas_akhir
@@ -75,7 +84,7 @@ def _hitung_baglog_aktif(periode_pred2: date) -> int:
         return 0
 
     total_produksi = sum(r["jumlah_produksi"] for r in rekap)
-    return math.ceil(total_produksi / HASIL_PANEN_PER_BAGLOG)
+    return math.ceil(total_produksi)
 
 def _hitung_baglog_baru(kebutuhan: int, aktif: int) -> int:
     return max(0, kebutuhan - aktif)
@@ -84,7 +93,7 @@ def _hitung_bahan_baku(baglog_baru: int) -> list:
     return [
         {
             "nama_bahan_baku" : nama,
-            "jumlah" : round(baglog_baru * rasio, 4),
+            "jumlah" : round(baglog_baru * rasio, 2),
             "satuan" : satuan,
         }
         for nama, (rasio, satuan) in RASIO_BAHAN_BAKU.items()
@@ -109,126 +118,274 @@ def _simpan_bahan_baku(rekomendasi_id: int, bahan_baku_list: list) -> bool:
         BahanBakuModel.insert_bahan_baku(insert_data)
     return True
 
-def _validasi_data_historis(data: list) -> tuple[bool, str]:
-    hari_ini = date.today()
-    hari_terakhir = calendar.monthrange(hari_ini.year, hari_ini.month)[1]
+# ── FUNGSI VALIDASI TERPISAH ──────────────────────────────────────────
 
-    # Validasi tanggal terakhir
-    if hari_ini.day != hari_terakhir:
+def _validasi_input(bulan_input, tahun_input) -> tuple[bool, str, object]:
+    """
+    Validasi parameter input dari request body.
+    Return: (valid: bool, pesan: str, periode_pred1: date | None)
+    """
+    if not bulan_input or not tahun_input:
+        return False, "Parameter 'bulan' dan 'tahun' wajib diisi", None
+
+    try:
+        periode_pred1 = date(int(tahun_input), int(bulan_input), 1)
+    except (ValueError, TypeError):
+        return False, "Nilai bulan atau tahun tidak valid", None
+
+    return True, "Valid", periode_pred1
+
+
+def _validasi_data_historis(data_historis: list, periode_pred1: date) -> tuple[bool, str]:
+    """
+    Validasi kelayakan data historis sebelum prediksi dijalankan.
+    Cek:
+      1. Duplikasi — periode ini sudah pernah diprediksi?
+      2. Data tersedia minimal 2 bulan (syarat regresi linier)
+      3. Data mencakup bulan tepat sebelum periode yang dipilih
+    Return: (valid: bool, pesan: str)
+    """
+    # 1. Cek duplikasi periode
+    existing = PrediksiModel.get_by_bulan_tahun(
+        bulan=periode_pred1.month,
+        tahun=periode_pred1.year
+    )
+    if existing:
         return (
             False,
-            f"Prediksi hanya dapat dilakukan pada tanggal terakhir bulan berjalan"
-            f"(tanggal {hari_terakhir} {hari_ini.strftime('%B %Y')})."
+            f"Prediksi periode {periode_pred1.strftime('%B %Y')} "
+            f"sudah pernah dilakukan. Prediksi hanya bisa dilakukan satu kali per periode."
         )
 
-    if not data:
-        return False, "Belum ada data penjualan sama sekali."
+    # 2. Cek ketersediaan data
+    if not data_historis:
+        return False, "Data penjualan tidak tersedia. Pastikan data sudah diinput."
 
-    bulan_terakhir_db = data[-1]["periode"][:7] # format MM-YYYY
-    bulan_berjalan = hari_ini.strftime("%m-%Y")
+    if len(data_historis) < 2:
+        return False, "Data penjualan minimal 2 bulan untuk menjalankan regresi linier."
 
-    if bulan_terakhir_db != bulan_berjalan:
+    # 3. Cek apakah bulan tepat sebelum periode yang dipilih sudah ada
+    bulan_sebelumnya = (periode_pred1 - relativedelta(months=1)).strftime("%Y-%m")
+    ada_bulan_sebelumnya = any(
+        d["periode"].startswith(bulan_sebelumnya)
+        for d in data_historis
+    )
+    if not ada_bulan_sebelumnya:
         return (
             False,
-            f"Data penjualan bulan berjalan ({bulan_berjalan}) belum tersedia"
-            f"Data terakhir yang ada: {bulan_terakhir_db}."
+            f"Data penjualan bulan {bulan_sebelumnya} belum tersedia. "
+            f"Pastikan data bulan sebelum periode prediksi sudah diinput."
         )
 
     return True, "Valid"
 
 # ENDPOINTS
 
+
 @prediksi_bp.route("/proses", methods=['POST'])
 def proses_prediksi():
-    # Pipeline Prediksi
+    body = request.get_json(silent=True) or {}
 
-    # Mengambil data historis
+    # 1. Validasi input
+    ok, pesan, periode_pred1 = _validasi_input(
+        body.get("bulan"),
+        body.get("tahun")
+    )
+    if not ok:
+        return response_error(pesan=pesan, kode=400)
+
+    periode_pred2 = periode_pred1 + relativedelta(months=1)
+
+    # 2. Ambil data historis (maks 24 bulan terakhir)
     data_historis = PenjualanModel.get_all_agregasi_bulanan()
+    data_historis = data_historis[-24:] if len(data_historis) > 24 else data_historis
 
-    valid, pesan = _validasi_data_historis(data_historis)
-
-    if not valid:
+    # 3. Validasi data historis (duplikasi + kecukupan data)
+    ok, pesan = _validasi_data_historis(data_historis, periode_pred1)
+    if not ok:
         return response_error(pesan=pesan, kode=422)
 
     n = len(data_historis)
 
-    # Melatih Model
+    # 4. Latih model
     model = ModelRegresi()
     try:
         model.train_model(data_historis)
     except Exception as e:
         return response_error(pesan=str(e), kode=422)
 
-    # Prediksi dua periode ke depan
+    # 5. Prediksi dua periode ke depan
     pred1 = max(0.0, model.predict(n + 1))
     pred2 = max(0.0, model.predict(n + 2))
 
-    # Menghitung error
-    y_aktual = [d["total_penjualan"] for d in data_historis]
-    y_pred_insample = [max(0.0, model.predict(i + 1)) for i in range(n)]
+    # 6. Hitung error
+    y_aktual        = [d["total_penjualan"] for d in data_historis]
+    y_pred_insample = [model.predict(i + 1) for i in range(n)]
     error = model.hitung_error(y_aktual, y_pred_insample)
 
-    # Tentukan periode prediksi
-    last_periode_str = data_historis[-1]["periode"][:7] # format YYYY-MM
-    last_date = date.fromisoformat(last_periode_str + "-01")
-    periode_pred1 = last_date + relativedelta(months=1)
-    periode_pred2 = last_date + relativedelta(months=2)
+    # 7. Simpan — periode_pred1 dari input user, bukan dari last_date
+    prediksi_id = PrediksiModel.insert({
+        "periode_prediksi": periode_pred1,   # ← pakai input user
+        "pred_periode1":    pred1,
+        "pred_periode2":    pred2,
+        "slope":            model.slope,
+        "intercept":        model.intercept,
+        "nilai_mae":        error["mae"],
+        "nilai_rmse":       error["rmse"],
+        "nilai_mape":       error["mape"],
+    })
 
-    # Menyimpan ke tabel prediksi
-    prediksi_id = PrediksiModel.insert(
-        {
-            "periode_prediksi": periode_pred1,
-            "pred_periode1": pred1,
-            "pred_periode2": pred2,
-            "slope": model.slope,
-            "intercept": model.intercept,
-            "nilai_mae": error["mae"],
-            "nilai_rmse": error["rmse"],
-            "nilai_mape": error["mape"],
-        }
-    )
+    est_kebutuhan  = _hitung_estimasi_baglog(pred2)
+    est_aktif      = _hitung_baglog_aktif(periode_pred2)
+    baglog_baru    = _hitung_baglog_baru(est_kebutuhan, est_aktif)
 
-    # Menghitung estimas baglog
-    est_kebutuhan = _hitung_estimasi_baglog(pred2)
-    est_aktif = _hitung_estimasi_baglog(periode_pred2)
-    baglog_baru = _hitung_baglog_baru(est_kebutuhan, est_aktif)
+    rekomendasi_id = RekomendasiModel.insert({
+        "est_kebutuhan_baglog": est_kebutuhan,
+        "est_baglog_aktif":     est_aktif,
+        "baglog_baru":          baglog_baru,
+        "prediksi_id":          prediksi_id,
+    })
 
-    rekomendasi_id = RekomendasiModel.insert(
-        {
-            "est_kebutuhan_baglog": est_kebutuhan,
-            "est_baglog_aktif": est_aktif,
-            "baglog_baru": baglog_baru,
-            "prediksi_id": prediksi_id,
-        }
-    )
-
-    # Hitung dan simpan kebutuhan bahan baku
     bahan_baku_list = _hitung_bahan_baku(baglog_baru)
     _simpan_bahan_baku(rekomendasi_id, bahan_baku_list)
 
-    # Susunan respons
     hasil = {
         "prediksi": {
-            "prediksi_id": prediksi_id,
-            "periode_pred1": str(periode_pred1),
-            "periode_pred2": str(periode_pred2),
-            "pred_periode1": round(pred1, 2),
-            "pred_periode2": round(pred2, 2),
-            "slope": round(model.slope, 4),
-            "intercept": round(model.intercept, 4),
-            "nilai_mae": round(error["mae"], 4),
-            "nilai_rmse": round(error["rmse"], 4),
-            "nilai_mape": round(error["mape"], 4),
+            "prediksi_id":    prediksi_id,
+            "periode_pred1":  str(periode_pred1),
+            "periode_pred2":  str(periode_pred2),
+            "pred_periode1":  round(pred1, 2),
+            "pred_periode2":  round(pred2, 2),
+            "slope":          round(model.slope, 4),
+            "intercept":      round(model.intercept, 4),
+            "nilai_mae":      round(error["mae"], 4),
+            "nilai_rmse":     round(error["rmse"], 4),
+            "nilai_mape":     round(error["mape"], 4),
         },
-        "rekomendasi":{
-            "rekomendasi_id": rekomendasi_id,
+        "rekomendasi": {
+            "rekomendasi_id":       rekomendasi_id,
             "est_kebutuhan_baglog": est_kebutuhan,
-            "est_baglog_aktif": est_aktif,
-            "baglog_baru": baglog_baru,
+            "est_baglog_aktif":     est_aktif,
+            "baglog_baru":          baglog_baru,
         },
         "bahan_baku": bahan_baku_list,
     }
     return response_sukses(hasil, pesan="Prediksi berhasil diproses", kode=201)
+
+# @prediksi_bp.route("/proses", methods=['POST'])
+# def proses_prediksi():
+#     # Ambil periode dari request body
+#     body = request.get_json(silent=True) or {}
+#     bulan_input = body.get("bulan")   # int 1-12
+#     tahun_input = body.get("tahun")   # int misal 2025
+#
+#     if not bulan_input or not tahun_input:
+#         return response_error(pesan="Parameter 'bulan' dan 'tahun' wajib diisi", kode=400)
+#
+#     try:
+#         periode_pred1 = date(tahun_input, bulan_input, 1)
+#     except ValueError:
+#         return response_error(pesan="Nilai bulan atau tahun tidak valid", kode=400)
+#
+#     periode_pred2 = periode_pred1 + relativedelta(months=1)
+#
+#     # Cek duplikasi — periode yang dipilih sudah pernah diprediksi?
+#     prediksi_existing = PrediksiModel.get_by_bulan_tahun(
+#         bulan=periode_pred1.month,
+#         tahun=periode_pred1.year
+#     )
+#     if prediksi_existing:
+#         return response_error(
+#             pesan=f"Prediksi periode {periode_pred1.strftime('%B %Y')} sudah pernah dilakukan.",
+#             kode=422
+#         )
+#
+#     # Ambil & batasi data historis
+#     data_historis = PenjualanModel.get_all_agregasi_bulanan()
+#     data_historis = data_historis[-24:] if len(data_historis) > 24 else data_historis
+#
+#     if not data_historis:
+#         return response_error(pesan="Data penjualan tidak tersedia.", kode=422)
+#
+#     n = len(data_historis)
+#
+#     # Melatih Model
+#     model = ModelRegresi()
+#     try:
+#         model.train_model(data_historis)
+#     except Exception as e:
+#         return response_error(pesan=str(e), kode=422)
+#
+#     # Prediksi dua periode ke depan
+#     pred1 = max(0.0, model.predict(n + 1))
+#     pred2 = max(0.0, model.predict(n + 2))
+#
+#     # Menghitung error
+#     y_aktual = [d["total_penjualan"] for d in data_historis]
+#     y_pred_insample = [model.predict(i + 1) for i in range(n)]
+#     error = model.hitung_error(y_aktual, y_pred_insample)
+#
+#     # Tentukan periode prediksi
+#     last_periode_str = data_historis[-1]["periode"][:7] # format YYYY-MM
+#     last_date = date.fromisoformat(last_periode_str + "-01")
+#     periode_pred1 = last_date + relativedelta(months=1)
+#     periode_pred2 = last_date + relativedelta(months=2)
+#
+#     # Menyimpan ke tabel prediksi
+#     prediksi_id = PrediksiModel.insert(
+#         {
+#             "periode_prediksi": periode_pred1,
+#             "pred_periode1": pred1,
+#             "pred_periode2": pred2,
+#             "slope": model.slope,
+#             "intercept": model.intercept,
+#             "nilai_mae": error["mae"],
+#             "nilai_rmse": error["rmse"],
+#             "nilai_mape": error["mape"],
+#         }
+#     )
+#
+#     # Menghitung estimas baglog
+#     est_kebutuhan = _hitung_estimasi_baglog(pred2)
+#     est_aktif = _hitung_baglog_aktif(periode_pred2)
+#     baglog_baru = _hitung_baglog_baru(est_kebutuhan, est_aktif)
+#
+#     rekomendasi_id = RekomendasiModel.insert(
+#         {
+#             "est_kebutuhan_baglog": est_kebutuhan,
+#             "est_baglog_aktif": est_aktif,
+#             "baglog_baru": baglog_baru,
+#             "prediksi_id": prediksi_id,
+#         }
+#     )
+#
+#     # Hitung dan simpan kebutuhan bahan baku
+#     bahan_baku_list = _hitung_bahan_baku(baglog_baru)
+#     _simpan_bahan_baku(rekomendasi_id, bahan_baku_list)
+#
+#     # Susunan respons
+#     hasil = {
+#         "prediksi": {
+#             "prediksi_id": prediksi_id,
+#             "periode_pred1": str(periode_pred1),
+#             "periode_pred2": str(periode_pred2),
+#             "pred_periode1": round(pred1, 2),
+#             "pred_periode2": round(pred2, 2),
+#             "slope": round(model.slope, 4),
+#             "intercept": round(model.intercept, 4),
+#             "nilai_mae": round(error["mae"], 4),
+#             "nilai_rmse": round(error["rmse"], 4),
+#             "nilai_mape": round(error["mape"], 4),
+#         },
+#         "rekomendasi":{
+#             "rekomendasi_id": rekomendasi_id,
+#             "est_kebutuhan_baglog": est_kebutuhan,
+#             "est_baglog_aktif": est_aktif,
+#             "baglog_baru": baglog_baru,
+#         },
+#         "bahan_baku": bahan_baku_list,
+#     }
+#     return response_sukses(hasil, pesan="Prediksi berhasil diproses", kode=201)
 
 @prediksi_bp.route("", methods=['GET'])
 def get_all_prediksi():
@@ -269,3 +426,53 @@ def get_bahan_baku_by_rekomendasi_id(rekomendasi_id):
         return response_sukses(data)
     except Exception as e:
         return response_error(pesan="Gagal mengambil data bahan baku", detail=str(e), kode=500)
+
+@prediksi_bp.route("/periode-tersedia", methods=['GET'])
+def get_periode_tersedia():
+    try:
+        semua_periode = PenjualanModel.get_all_agregasi_bulanan()
+        if not semua_periode:
+            return response_error(pesan="Belum ada data penjualan", kode=422)
+
+        semua_periode = semua_periode[-24:] if len(semua_periode) > 24 else semua_periode
+
+        # Set periode dari penjualan
+        periode_penjualan = {d["periode"][:7] for d in semua_periode}  # ← langsung set
+
+        # Set periode yang sudah diprediksi
+        sudah_diprediksi = {
+            p["periode_prediksi"][:7]
+            for p in PrediksiModel.get_all()
+            if p.get("periode_prediksi")
+        }
+
+        # Periode terbaru dari gabungan penjualan dan prediksi
+        all_periode = periode_penjualan | sudah_diprediksi  # ← sekarang set | set ✓
+        last_date = date.fromisoformat(sorted(all_periode)[-1] + "-01")
+        next_periode_str = (last_date + relativedelta(months=1)).strftime("%Y-%m")
+
+        # Kandidat = periode penjualan + 1 periode berikutnya
+        kandidat = periode_penjualan | {next_periode_str}
+
+        # Filter yang sudah diprediksi
+        tersedia = sorted(kandidat - sudah_diprediksi)
+
+        nama_bulan = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ]
+
+        hasil = []
+        for p in tersedia:
+            d = date.fromisoformat(p + "-01")
+            hasil.append({
+                "periode": p,
+                "bulan":   d.month,
+                "tahun":   d.year,
+                "label":   f"{nama_bulan[d.month - 1]} {d.year}"
+            })
+
+        return response_sukses(hasil, pesan="Periode tersedia berhasil diambil")
+
+    except Exception as e:
+        return response_error(pesan="Gagal mengambil periode tersedia", detail=str(e), kode=500)

@@ -45,15 +45,38 @@ def simpan_penjualan():
     if kumbung is None:
         return response_error(pesan=f"Kumbung dengan ID {body['kumbung_id']} tidak ditemukan")
 
-    prediksi = PrediksiModel.get_latest()
-    if prediksi is None or prediksi["prediksi_id"] != body["prediksi_id"]:
-        pass
+    semua_prediksi = PrediksiModel.get_all()
+    prediksi = next((p for p in semua_prediksi if p["prediksi_id"] == body["prediksi_id"]), None)
+    if prediksi is None:
+        return response_error(
+            pesan=f"Prediksi dengan ID {body['prediksi_id']} tidak ditemukan",
+            kode=404
+        )
 
     try:
-        if body["jumlah_penjualan"] < 0:
-            return response_error(pesan="Jumlah penjualan tidak boleh negatif")
+        if body["jumlah_penjualan"] <= 0:
+            return response_error(pesan="Jumlah penjualan tidak boleh nol atau negatif")
 
         PenjualanModel.insert(body)
         return response_sukses(pesan="Data penjualan berhasil disimpan", kode=201)
     except Exception as e:
         return response_error(pesan="Gagal menyimpan data penjualan", detail=str(e), kode=500)
+
+# Tambahkan di bagian bawah file, setelah endpoint simpan_penjualan
+
+@penjualan_bp.route("/<int:penjualan_id>", methods=["DELETE"])
+def hapus_penjualan(penjualan_id: int):
+    try:
+        berhasil = PenjualanModel.hapus(penjualan_id)
+        if not berhasil:
+            return response_error(
+                pesan="Data penjualan tidak ditemukan atau sudah dihapus",
+                kode=404
+            )
+        return response_sukses(pesan="Data penjualan berhasil dihapus")
+    except Exception as e:
+        return response_error(
+            pesan="Gagal menghapus data penjualan",
+            detail=str(e),
+            kode=500
+        )

@@ -15,6 +15,7 @@ Urutan deklarasi disesuaikan dengan urutan FK:
 """
 
 from datetime import datetime
+from typing import Optional
 from sqlalchemy import (
     CheckConstraint,
     Date,
@@ -97,6 +98,7 @@ class Penjualan(Base):
     prediksi_id:       Mapped[int]      = mapped_column(Integer, ForeignKey("prediksi.prediksi_id", onupdate="CASCADE", ondelete="RESTRICT"), nullable=False)
     created_at:        Mapped[datetime] = mapped_column(DateTime, nullable=False, server_default=func.now())
     updated_at:        Mapped[datetime] = mapped_column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
+    deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True, default=None)
 
     # Relasi
     kumbung:  Mapped["Kumbung"]  = relationship("Kumbung",  back_populates="penjualan", lazy="select")
@@ -203,9 +205,10 @@ class Produksi(Base):
     rekomendasi_id:   Mapped[int]      = mapped_column(Integer, ForeignKey("rekomendasi.rekomendasi_id", onupdate="CASCADE", ondelete="RESTRICT"), nullable=False)
     created_at:       Mapped[datetime] = mapped_column(DateTime, nullable=False, server_default=func.now())
     updated_at:       Mapped[datetime] = mapped_column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
+    deleted_at:       Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True, default=None)
 
     # Relasi
-    rekomendasi: Mapped["Rekomendasi"] = relationship("Rekomendasi", back_populates="produksi", lazy="select")
+    rekomendasi: Mapped["Rekomendasi"] = relationship("Rekomendasi", back_populates="produksi", lazy="joined")
 
     def to_dict(self) -> dict:
         return {

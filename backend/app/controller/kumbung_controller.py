@@ -28,11 +28,15 @@ def tambah_kumbung():
     if not body or not body.get("nama_kumbung"):
         return response_error(pesan="Field 'nama_kumbung' wajib diisi")
 
+    nama = body["nama_kumbung"].strip()
+    if not nama:
+        return response_error(pesan="Nama kumbung tidak boleh kosong")
+
     try:
-        new_id = KumbungModel.insert(body["nama_kumbung"])
+        new_id = KumbungModel.insert(nama)
         return response_sukses(
-            {"kumbung_id": new_id, "nama_kumbung": body["nama_kumbung"]},
-            pesan="Kumbung berhasil diisi",
+            {"kumbung_id": new_id, "nama_kumbung": nama},
+            pesan="Kumbung berhasil ditambahkan",
             kode=201,
         )
     except Exception as e:

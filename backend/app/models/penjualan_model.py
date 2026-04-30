@@ -1,13 +1,12 @@
 from sqlalchemy import select, func, extract
-
-from app.models import Kumbung
+from datetime import datetime
 from config.database import get_session
 from app.models.orm_tables import Penjualan, Kumbung
 
 class PenjualanModel:
 
     @classmethod
-    def insert(data: dict) -> bool:
+    def insert(cls, data: dict) -> bool:
         with get_session() as session:
             penjualan_baru = Penjualan(
                 tanggal_penjualan=data["tanggal_penjualan"],
@@ -23,7 +22,8 @@ class PenjualanModel:
         with get_session() as session:
             hasil = session.execute(
                 select(Penjualan).join(Kumbung, Penjualan.kumbung_id == Kumbung.kumbung_id)
-                .order_by(Penjualan.jumlah_penjualan.desc())
+                .where(Penjualan.deleted_at.is_(None))
+                .order_by(Penjualan.tanggal_penjualan.asc())
             ).scalars().all()
 
             return [
@@ -42,6 +42,7 @@ class PenjualanModel:
                     extract("year", Penjualan.tanggal_penjualan).label("tahun"),
                     extract("month", Penjualan.tanggal_penjualan).label("bulan")
                 )
+                .where(Penjualan.deleted_at.is_(None))
                 .distinct()
                 .order_by("tahun", "bulan")
             ).all()
@@ -55,9 +56,10 @@ class PenjualanModel:
                 select(Penjualan)
                 .where(
                     extract("month", Penjualan.tanggal_penjualan) == bulan,
-                    extract("year", Penjualan.tanggal_penjualan) == tahun
+                    extract("year", Penjualan.tanggal_penjualan) == tahun,
+                    Penjualan.deleted_at.is_(None)
                 )
-                .order_by(Penjualan.tanggal_penjualan.desc())
+                .order_by(Penjualan.tanggal_penjualan.asc())
             ).scalars().all()
 
             return [p.to_dict() for p in hasil]
@@ -70,6 +72,7 @@ class PenjualanModel:
                     func.date_trunc("month", Penjualan.tanggal_penjualan).label("periode"),
                     func.sum(Penjualan.jumlah_penjualan).label("total_penjualan")
                 )
+                .where(Penjualan.deleted_at.is_(None))
                 .group_by("periode")
                 .order_by("periode")
             ).all()
@@ -81,3 +84,20 @@ class PenjualanModel:
                 }
                 for r in hasil
             ]
+
+    @staticmethod
+    def hapus(penjualan_id: int) -> bool:
+        with get_session() as session:
+            penjualan = session.execute(
+                select(Penjualan).where(
+                    Penjualan.penjualan_id == penjualan_id,
+                    Penjualan.deleted_at.is_(None)
+                )
+            ).scalar_one_or_none()
+
+            if penjualan is None:
+                return False
+
+            penjualan.deleted_at = datetime.now()
+            return True
+

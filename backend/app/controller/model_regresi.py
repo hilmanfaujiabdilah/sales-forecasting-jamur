@@ -29,9 +29,13 @@ class ModelRegresi:
 
         mae = mean_absolute_error(y_aktual, y_pred)
         rmse = root_mean_squared_error(y_aktual, y_pred)
-        mape = mean_absolute_percentage_error(y_aktual, y_pred)
+        mape = mean_absolute_percentage_error(y_aktual, y_pred) * 100
 
-        return {"mae": mae, "rmse": rmse, "mape": round(mape, 2)}
+        return {
+            "mae": round(float(mae), 4),
+            "rmse": round(float(rmse), 4),
+            "mape": round(float(mape), 4),
+        }
 
     def is_model_trained(self) -> bool:
         return self._trained
