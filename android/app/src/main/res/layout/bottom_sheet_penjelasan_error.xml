@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:maxHeight="600dp"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Drag handle -->
+        <View
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:background="@color/abu_sedang" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Penjelasan Nilai Kesalahan"
+            android:textColor="@color/hijau_utama"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Nilai ini menunjukkan seberapa akurat prediksi penjualan sistem. Perhitungan dilakukan secara otomatis oleh aplikasi"
+            android:textColor="@color/teks_utama"
+            android:textSize="14sp" />
+
+        <!-- MAE -->
+        <LinearLayout style="@style/ItemPenjelasan"
+            android:id="@+id/blokMae">
+
+            <TextView style="@style/JudulPenjelasan"
+                android:text="MAE: Rata-rata kesalahan prediksi" />
+
+            <TextView style="@style/IsiPenjelasan"
+                android:text="Menunjukkan rata-rata selisih antara hasil prediksi dan penjualan sebenarnya. Contoh: MAE 778 berarti prediksi rata-rata berbeda sekitar 778 kg dari nilai sebenarnya. Semakin kecil nilainya, semakin akurat prediksi." />
+        </LinearLayout>
+
+        <!-- RMSE -->
+        <LinearLayout style="@style/ItemPenjelasan"
+            android:id="@+id/blokRmse">
+
+            <TextView style="@style/JudulPenjelasan"
+                android:text="RMSE: Rata-rata kesalahan kuadrat prediksi" />
+
+            <TextView style="@style/IsiPenjelasan"
+                android:text="Menunjukkan besarnya kesalahan prediksi dengan memberikan perhatian lebih pada kesalahan yang sangat besar. Jika nilainya kecil, berarti prediksi jarang meleset jauh dari kondisi sebenarnya." />
+
+        </LinearLayout>
+
+        <!-- MAPE -->
+        <LinearLayout style="@style/ItemPenjelasan"
+            android:id="@+id/blokMape">
+
+            <TextView style="@style/JudulPenjelasan"
+                android:text="MAPE: Persentasi tingkat kesalahan" />
+
+            <TextView style="@style/IsiPenjelasan"
+                android:text="Menunjukkan rata-rata kesalahan dalam bentuk persentase. Contoh: MAPE 14% berarti tingkat ketepatan prediksi sekitar 86%. Semakin kecil persentasenya, semakin baik hasil prediksi." />
+        </LinearLayout>
+
+        <!-- R2 -->
+        <LinearLayout style="@style/ItemPenjelasan"
+            android:id="@+id/blokR2">
+
+            <TextView style="@style/JudulPenjelasan"
+                android:text="R²: Tingkat kecocokan dengan pola data" />
+
+            <TextView style="@style/IsiPenjelasan"
+                android:text="Menunjukkan kemampuan model dalam mengikuti pola data penjualan. Nilai berkisar antara 0 hingga 1. Semakin mendekati 1, semakin baik model dalam membuat prediksi." />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"
+            android:background="@color/hijau_latar"
+            android:text="Catatan: semakin kecil nilai MAE, RMSE, dan MAPE maka prediksi semakin akurat. serta semakin besar R² algoritma semakin cocok."
+            android:textColor="@color/hijau_gelap"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sales Forecasting Jamur</string>
+    <string name="app_name">TiraCast</string>
     <string name="menu_beranda">Beranda</string>
     <string name="menu_penjualan">Penjualan</string>
     <string name="menu_prediksi">Perdiksi</string>

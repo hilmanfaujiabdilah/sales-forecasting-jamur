@@ -33,14 +33,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Total Penjualan"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textColor="@color/hijau_gelap"/>
                     <TextView
                         android:id="@+id/tvTotalPenjualan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0 kg"
-                        android:textSize="22sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/hijau_gelap"/>
                 </LinearLayout>
@@ -54,14 +54,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Prediksi Bulan Ini"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textColor="@color/hijau_gelap"/>
                     <TextView
                         android:id="@+id/tvPrediksiPeriode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="- kg"
-                        android:textSize="22sp"
+                        android:text="0 kg"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/oranye_aksen"/>
                 </LinearLayout>
@@ -83,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Belum ada data penjualan di bulan ini"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColor="@color/abu_teks"
             android:gravity="center"
             android:padding="@dimen/margin_besar"

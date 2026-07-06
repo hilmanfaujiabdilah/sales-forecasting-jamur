@@ -16,6 +16,7 @@ class PrediksiModel:
                 nilai_mae=data["nilai_mae"],
                 nilai_rmse=data["nilai_rmse"],
                 nilai_mape=data["nilai_mape"],
+                nilai_r2=data["nilai_r2"],
             )
             session.add(prediksi_baru)
             session.flush()

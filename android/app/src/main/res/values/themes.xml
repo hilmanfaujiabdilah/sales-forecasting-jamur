@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.SalesForecastingJamur" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.SalesForecastingApps" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/hijau_utama</item>
         <item name="colorPrimaryVariant">@color/hijau_gelap</item>
         <item name="colorOnPrimary">@color/putih</item>
@@ -44,5 +44,13 @@
         <item name="android:padding">10dp</item>
     </style>
 
-    <!--    <style name="Theme.SalesForecastingJamur" parent="Base.Theme.SalesForecastingJamur" />-->
+    <style name="Theme.SalesForecastingApps.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_bg</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_tiracast_logo</item>
+        <item name="windowSplashScreenAnimationDuration">500</item>
+        <item name="postSplashScreenTheme">@style/Theme.SalesForecastingApps</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:statusBarColor">@color/splash_bg</item>
+        <item name="android:navigationBarColor">@color/splash_bg</item>
+    </style>
 </resources>

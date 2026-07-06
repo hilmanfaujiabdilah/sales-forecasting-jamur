@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80"
+    android:viewportHeight="96">
+
+    <!-- ── Mushroom cap ── -->
+    <path
+        android:pathData="M40,14 C22,14 10,25 10,34 C10,37 12.5,39 15,39 L65,39 C67.5,39 70,37 70,34 C70,25 58,14 40,14 Z"
+        android:fillColor="#74C69D"/>
+
+    <!-- ── Mushroom stem ── -->
+    <path
+        android:pathData="M30,39 L30,57 C30,59.5 32,61 35,61 L45,61 C48,61 50,59.5 50,57 L50,39 Z"
+        android:fillColor="#52B788"/>
+
+    <!-- ── Dots on cap ── -->
+    <path
+        android:pathData="M27,29 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"
+        android:fillColor="#1B4D2E"
+        android:fillAlpha="0.4"/>
+    <path
+        android:pathData="M40,23 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"
+        android:fillColor="#1B4D2E"
+        android:fillAlpha="0.4"/>
+    <path
+        android:pathData="M53,29 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"
+        android:fillColor="#1B4D2E"
+        android:fillAlpha="0.4"/>
+
+    <!-- ── Shine on cap ── -->
+    <path
+        android:pathData="M20,26 C22,22 27,20 32,20"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:fillColor="@android:color/transparent"/>
+
+    <!-- ── Bar chart ── -->
+    <path android:pathData="M12,88 L12,80 Q12,78 14,78 L18,78 Q20,78 20,80 L20,88 Z"
+        android:fillColor="#95D5B2"/>
+    <path android:pathData="M22,88 L22,74 Q22,72 24,72 L28,72 Q30,72 30,74 L30,88 Z"
+        android:fillColor="#74C69D"/>
+    <path android:pathData="M32,88 L32,68 Q32,66 34,66 L38,66 Q40,66 40,68 L40,88 Z"
+        android:fillColor="#52B788"/>
+    <path android:pathData="M42,88 L42,72 Q42,70 44,70 L48,70 Q50,70 50,72 L50,88 Z"
+        android:fillColor="#74C69D"/>
+    <path android:pathData="M52,88 L52,66 Q52,64 54,64 L58,64 Q60,64 60,66 L60,88 Z"
+        android:fillColor="#52B788"/>
+    <path android:pathData="M62,88 L62,64 Q62,62 64,62 L68,62 Q70,62 70,64 L70,88 Z"
+        android:fillColor="#95D5B2"/>
+
+    <!-- ── Baseline ── -->
+    <path
+        android:pathData="M10,89 L70,89"
+        android:strokeColor="#52B788"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.5"
+        android:fillColor="@android:color/transparent"/>
+
+</vector>

@@ -1,9 +1,9 @@
 import math
 from datetime import date
+from sqlalchemy import select
 from dateutil.relativedelta import relativedelta
 from flask import Blueprint, request
-from app.models import BahanBakuModel, RekomendasiModel
-from app.models.produksi_model import ProduksiModel
+from app.models import BahanBakuModel, RekomendasiModel, ProduksiModel
 from app.models.prediksi_model import PrediksiModel
 from app.models.penjualan_model import PenjualanModel
 from app.controller.model_regresi import ModelRegresi
@@ -66,25 +66,113 @@ def _hitung_estimasi_baglog(pred_penjualan2: float) -> int:
         raise ValueError("HASIL_PANEN_PER_BAGLOG_PER_BULAN harus > 0")
     return math.ceil(pred_penjualan2 / HASIL_PANEN_PER_BAGLOG_PER_BULAN)
 
-def _hitung_baglog_aktif(periode_pred2: date) -> int:
+# def _hitung_baglog_aktif(periode_pred1: date) -> int:
+#     """
+#     Rumus:
+#         batas_awal       = periode_pred2 - 3 bulan
+#         batas_akhir      = periode_pred2 - 1 bulan
+#         est_baglog_aktif = SUM(baglog_baru dari produksi)
+#                            WHERE tanggal_produksi BETWEEN batas_awal AND batas_akhir
+#     """
+#
+#     # batas_awal = periode_pred2 - relativedelta(months=USIA_AKTIF_MAKS_BULAN)
+#     # batas_akhir = periode_pred2 - relativedelta(months=1)
+#
+#     batas_awal = date(
+#         (periode_pred1 - relativedelta(months=USIA_AKTIF_MAKS_BULAN)).year,
+#         (periode_pred1 - relativedelta(months=USIA_AKTIF_MAKS_BULAN)).month,
+#         1
+#     )
+#
+#     batas_akhir = date(
+#         (periode_pred1 - relativedelta(months=1)).year,
+#         (periode_pred1 - relativedelta(months=1)).month,
+#         1
+#     )
+#     # ambil semua produksi yang ada pada rentang batas_awal - batas_akhir
+#     # rekap = ProduksiModel.get_baglog_aktif(batas_awal, batas_akhir)
+#     # if not rekap:
+#     #     return 0
+#     #
+#     # total_produksi = sum(r["jumlah_produksi"] for r in rekap)
+#     # return math.ceil(total_produksi)
+#
+#     with get_session() as session:
+#         hasil = session.execute(
+#             select(Rekomendasi.baglog_baru)
+#             .join(Prediksi, Rekomendasi.prediksi_id == Prediksi.prediksi_id)
+#             .where(
+#                 Prediksi.periode_prediksi >= batas_awal,
+#                 Prediksi.periode_prediksi <= batas_akhir,
+#             )
+#         ).scalars().all()
+#
+#     if not hasil:
+#         return 0
+#
+#     return sum(hasil)
+
+# def _hitung_baglog_aktif(periode_pred1: date) -> int:
+#     """
+#     Baglog aktif = baglog yang diproduksi 2 s/d 4 bulan sebelum periode_pred1,
+#     karena:
+#       - bulan ke-1 = inkubasi (belum aktif)
+#       - bulan ke-2 s/d ke-4 = aktif berproduksi
+#       - bulan ke-5 dst = sudah habis masa hidup
+#
+#     batas_awal  = periode_pred1 - 4 bulan  (misal: Feb - 4 = Oktober)
+#     batas_akhir = periode_pred1 - 2 bulan  (misal: Feb - 2 = Desember)
+#     """
+#     batas_awal = date(
+#         (periode_pred1 - relativedelta(months=SIKLUS_HIDUP_BULAN)).year,
+#         (periode_pred1 - relativedelta(months=SIKLUS_HIDUP_BULAN)).month,
+#         1
+#     )
+#
+#     batas_akhir = date(
+#         (periode_pred1 - relativedelta(months=2)).year,
+#         (periode_pred1 - relativedelta(months=2)).month,
+#         1
+#     )
+#
+#     with get_session() as session:
+#         hasil = session.execute(
+#             select(Rekomendasi.baglog_baru)
+#             .join(Prediksi, Rekomendasi.prediksi_id == Prediksi.prediksi_id)
+#             .where(
+#                 Prediksi.periode_prediksi >= batas_awal,
+#                 Prediksi.periode_prediksi <= batas_akhir,
+#             )
+#         ).scalars().all()
+#
+#     if not hasil:
+#         return 0
+#
+#     return sum(hasil)
+
+def _hitung_baglog_aktif(periode_pred1: date) -> int:
     """
-    Rumus:
-        batas_awal       = periode_pred2 - 3 bulan
-        batas_akhir      = periode_pred2 - 1 bulan
-        est_baglog_aktif = SUM(baglog_baru dari produksi)
-                           WHERE tanggal_produksi BETWEEN batas_awal AND batas_akhir
+    Baglog aktif = baglog yang diproduksi dalam 3 bulan sebelum periode_pred1.
+
+    Contoh: periode_pred1 = Januari 2026
+      batas_awal  = Oktober 2025  (Januari - 3 bulan)
+      batas_akhir = Desember 2025 (Januari - 1 bulan)
+
+    Baglog dari Okt, Nov, Des masih aktif di Januari (masa aktif 4 bulan),
+    sedangkan baglog baru akan diproduksi di bulan Januari itu sendiri.
     """
+    batas_awal = date(
+        (periode_pred1 - relativedelta(months=SIKLUS_HIDUP_BULAN - 1)).year,
+        (periode_pred1 - relativedelta(months=SIKLUS_HIDUP_BULAN - 1)).month,
+        1
+    )
+    batas_akhir = date(
+        (periode_pred1 - relativedelta(months=1)).year,
+        (periode_pred1 - relativedelta(months=1)).month,
+        1
+    )
 
-    batas_awal = periode_pred2 - relativedelta(months=USIA_AKTIF_MAKS_BULAN)
-    batas_akhir = periode_pred2 - relativedelta(months=1)
-
-    # ambil semua produksi yang ada pada rentang batas_awal - batas_akhir
-    rekap = ProduksiModel.get_baglog_aktif(batas_awal, batas_akhir)
-    if not rekap:
-        return 0
-
-    total_produksi = sum(r["jumlah_produksi"] for r in rekap)
-    return math.ceil(total_produksi)
+    return ProduksiModel.get_baglog_aktif(batas_awal, batas_akhir)
 
 def _hitung_baglog_baru(kebutuhan: int, aktif: int) -> int:
     return max(0, kebutuhan - aktif)
@@ -233,10 +321,11 @@ def proses_prediksi():
         "nilai_mae":        error["mae"],
         "nilai_rmse":       error["rmse"],
         "nilai_mape":       error["mape"],
+        "nilai_r2":         error["r2"],
     })
 
     est_kebutuhan  = _hitung_estimasi_baglog(pred2)
-    est_aktif      = _hitung_baglog_aktif(periode_pred2)
+    est_aktif      = _hitung_baglog_aktif(periode_pred1)
     baglog_baru    = _hitung_baglog_baru(est_kebutuhan, est_aktif)
 
     rekomendasi_id = RekomendasiModel.insert({
@@ -261,6 +350,7 @@ def proses_prediksi():
             "nilai_mae":      round(error["mae"], 4),
             "nilai_rmse":     round(error["rmse"], 4),
             "nilai_mape":     round(error["mape"], 4),
+            "nilai_r2":       round(error["r2"], 4),
         },
         "rekomendasi": {
             "rekomendasi_id":       rekomendasi_id,
@@ -398,7 +488,7 @@ def get_all_prediksi():
 @prediksi_bp.route("/periode", methods=['GET'])
 def get_prediksi_by_periode():
     bulan = request.args.get("bulan", type=int)
-    tahun = request.args.get("tahun", type=int)
+    tahun = request.args.get("bulan", type=int)
 
     if not bulan or not tahun:
         return response_error(pesan="Parameter 'bulan' dan 'tahun' wajib diisi")

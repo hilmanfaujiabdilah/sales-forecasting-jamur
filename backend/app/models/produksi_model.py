@@ -2,7 +2,7 @@ from sqlalchemy import select, extract, func
 from sqlalchemy.orm import joinedload
 from datetime import date, datetime
 from config.database import get_session
-from app.models.orm_tables import Produksi
+from app.models.orm_tables import Produksi, Prediksi
 
 class ProduksiModel:
 
@@ -40,59 +40,105 @@ class ProduksiModel:
                 for p in hasil
             ]
 
+    # @staticmethod
+    # def get_baglog_aktif(batas_awal: date, batas_akhir: date) -> list:
+    #     with get_session() as session:
+    #         hasil = session.execute(
+    #             select(Produksi)
+    #             .where(
+    #                 Produksi.tanggal_produksi >= batas_awal,
+    #                 Produksi.tanggal_produksi <= batas_akhir,
+    #                 Produksi.deleted_at.is_(None)
+    #             )
+    #             .order_by(Produksi.tanggal_produksi)
+    #         ).scalars().all()
+    #
+    #         return [p.to_dict() for p in hasil]
+
     @staticmethod
-    def get_baglog_aktif(batas_awal: date, batas_akhir: date) -> list:
+    def get_baglog_aktif(batas_awal: date, batas_akhir: date) -> int:
         with get_session() as session:
             hasil = session.execute(
-                select(Produksi)
+                select(func.sum(Produksi.jumlah_produksi))
                 .where(
                     Produksi.tanggal_produksi >= batas_awal,
                     Produksi.tanggal_produksi <= batas_akhir,
                     Produksi.deleted_at.is_(None)
                 )
-                .order_by(Produksi.tanggal_produksi)
-            ).scalars().all()
+            ).scalar()
 
-            return [p.to_dict() for p in hasil]
+            return int(hasil) if hasil else 0
+
+    # @staticmethod
+    # def get_agregasi_bulanan() -> list:
+    #     with get_session() as session:
+    #         hasil = session.execute(
+    #             select(
+    #                 func.date_trunc("month", Produksi.tanggal_produksi).label("periode"),
+    #                 func.sum(Produksi.jumlah_produksi).label("total_produksi"),
+    #             )
+    #             .where(Produksi.deleted_at.is_(None))
+    #             .group_by("periode")
+    #             .order_by("periode")
+    #         ).all()
+    #
+    #         return [
+    #             {
+    #                 "periode": str(r.periode),
+    #                 "total_produksi": float(r.total_produksi),
+    #                 "bulan": r.periode.month,
+    #                 "tahun": r.periode.year,
+    #             }
+    #             for r in hasil
+    #         ]
 
     @staticmethod
     def get_agregasi_bulanan() -> list:
-        from app.models.orm_tables import Rekomendasi, Prediksi
         with get_session() as session:
-            hasil = session.execute(
+            # Data produksi aktual
+            hasil_produksi = session.execute(
                 select(
-                    Rekomendasi.rekomendasi_id,
-                    Rekomendasi.baglog_baru,
-                    Prediksi.periode_prediksi,
-                    func.coalesce(
-                        func.sum(Produksi.jumlah_produksi), 0
-                    ).label("total_produksi")
+                    func.date_trunc("month", Produksi.tanggal_produksi).label("periode"),
+                    func.sum(Produksi.jumlah_produksi).label("total_produksi"),
                 )
-                .join(Prediksi, Rekomendasi.prediksi_id == Prediksi.prediksi_id)
-                .outerjoin(
-                    Produksi,
-                    (Produksi.rekomendasi_id == Rekomendasi.rekomendasi_id) &
-                    (Produksi.deleted_at.is_(None))
-                )
-                .group_by(
-                    Rekomendasi.rekomendasi_id,
-                    Rekomendasi.baglog_baru,
-                    Prediksi.periode_prediksi,
-                )
-                .order_by(Prediksi.periode_prediksi)
+                .where(Produksi.deleted_at.is_(None))
+                .group_by("periode")
+                .order_by("periode")
             ).all()
 
-            return [
+            # Periode yang sudah ada di produksi
+            periode_ada = {r.periode.strftime("%Y-%m") for r in hasil_produksi}
+
+            # Periode dari prediksi yang belum ada di produksi
+            hasil_prediksi = session.execute(
+                select(Prediksi.periode_prediksi)
+                .order_by(Prediksi.periode_prediksi)
+            ).scalars().all()
+
+            # Gabungkan
+            data = [
                 {
-                    "periode": str(r.periode_prediksi),
-                    "total_penjualan": float(r.total_produksi),
-                    "rekomendasi_id": r.rekomendasi_id,
-                    "baglog_baru": r.baglog_baru,
-                    "bulan": r.periode_prediksi.month,
-                    "tahun": r.periode_prediksi.year,
+                    "periode": str(r.periode),
+                    "total_produksi": float(r.total_produksi),
+                    "bulan": r.periode.month,
+                    "tahun": r.periode.year,
                 }
-                for r in hasil
+                for r in hasil_produksi
             ]
+
+            for p in hasil_prediksi:
+                if p.strftime("%Y-%m") not in periode_ada:
+                    data.append({
+                        "periode": str(p),
+                        "total_produksi": 0.0,
+                        "bulan": p.month,
+                        "tahun": p.year,
+                    })
+
+            # Urutkan berdasarkan periode
+            data.sort(key=lambda x: x["periode"])
+            return data
+
     @staticmethod
     def hapus(produksi_id: int) -> bool:
         with get_session() as session:

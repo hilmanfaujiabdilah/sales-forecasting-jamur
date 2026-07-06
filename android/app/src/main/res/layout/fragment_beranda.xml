@@ -31,11 +31,11 @@
                 android:id="@+id/tvTanggalHariIni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 android:textColor="@color/abu_teks"
                 android:layout_marginBottom="@dimen/margin_sedang"/>
 
-            <!-- Card Grafik Penjualan 12 Bulan -->
+            <!-- Card Grafik Penjualan 24 Bulan -->
             <androidx.cardview.widget.CardView
                 style="@style/CardPutih"
                 android:layout_width="match_parent"
@@ -48,13 +48,23 @@
                     android:orientation="vertical"
                     android:padding="@dimen/margin_sedang">
 
+                    <!-- Judul grafik -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Grafik Penjualan 12 Bulan Terakhir"
-                        android:textSize="14sp"
+                        android:text="Grafik Penjualan 24 Bulan Terakhir"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/hijau_gelap"
+                        android:layout_marginBottom="2dp"/>
+
+                    <!-- Subtitle periode grafik (dinamis dari Fragment) -->
+                    <TextView
+                        android:id="@+id/tvPeriodeGrafik"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="@color/abu_teks"
                         android:layout_marginBottom="@dimen/margin_kecil"/>
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -62,48 +72,33 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/tinggi_grafik"/>
 
-                    <!-- Legenda -->
+                    <!-- Spacer legenda (kosong, legenda ditangani MPAndroidChart) -->
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_width="24dp"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"/>
 
-                        <View
-                            android:layout_width="16dp"
-                            android:layout_height="3dp"
-                            android:background="@color/hijau_terang"
-                            android:layout_gravity="center_vertical"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" Penjualan Aktual"
-                            android:textSize="12sp"
-                            android:textColor="@color/teks_sekunder"
-                            android:layout_marginEnd="16dp"/>
-                        <View
-                            android:layout_width="16dp"
-                            android:layout_height="3dp"
-                            android:background="@color/oranye_aksen"
-                            android:layout_gravity="center_vertical"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" Prediksi"
-                            android:textSize="12sp"
-                            android:textColor="@color/teks_sekunder"/>
-                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Label Ringkasan -->
+            <!-- Label Ringkasan + subtitle bulan ini -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ringkasan Periode Ini"
-                android:textSize="15sp"
+                android:text="Ringkasan Bulan Ini"
+                android:textSize="17sp"
                 android:textStyle="bold"
                 android:textColor="@color/teks_utama"
+                android:layout_marginBottom="2dp"/>
+
+            <!-- Subtitle bulan & tahun saat ini (dinamis dari Fragment) -->
+            <TextView
+                android:id="@+id/tvPeriodeRingkasan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/abu_teks"
                 android:layout_marginBottom="@dimen/margin_kecil"/>
 
             <!-- Card Penjualan vs Prediksi -->
@@ -134,7 +129,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Penjualan"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="@color/hijau_utama"/>
                     </LinearLayout>
@@ -153,13 +148,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Aktual"
-                                android:textSize="12sp"
+                                android:textSize="13sp"
                                 android:textColor="@color/abu_teks"/>
                             <TextView
                                 android:id="@+id/tvPenjualanAktual"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="- kg"
+                                android:text="0 kg"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/hijau_utama"/>
@@ -174,13 +169,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Prediksi"
-                                android:textSize="12sp"
+                                android:textSize="13sp"
                                 android:textColor="@color/abu_teks"/>
                             <TextView
                                 android:id="@+id/tvPenjualanPrediksi"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="- kg"
+                                android:text="0 kg"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/oranye_aksen"/>
@@ -202,11 +197,12 @@
                     android:orientation="vertical"
                     android:padding="@dimen/margin_sedang">
 
+                    <!-- Header Produksi Baglog -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="8dp">
+                        android:layout_marginBottom="12dp">
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
@@ -217,37 +213,148 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Produksi Baglog"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="@color/biru_grafik"/>
                     </LinearLayout>
 
+                    <!-- Baris Atas: Baglog Tersedia + Estimasi Kebutuhan -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <!-- Kiri Atas: Baglog Tersedia -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:background="@color/hijau_latar"
+                            android:padding="8dp"
+                            android:layout_marginEnd="6dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Baglog Tersedia"
+                                android:textColor="@color/abu_teks"
+                                android:textSize="13sp" />
+                            <TextView
+                                android:id="@+id/tvBaglogAktif"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0 baglog"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/biru_grafik"/>
+                            <!-- Subtitle dinamis: "di bulan Mei 2026" (bulan+1) -->
+                            <TextView
+                                android:id="@+id/tvLabelBaglogAktif"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="di bulan depan"
+                                android:textSize="13sp"
+                                android:textColor="@color/abu_teks"/>
+                        </LinearLayout>
+
+                        <!-- Kanan Atas: Estimasi Kebutuhan -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:background="@color/hijau_latar"
+                            android:padding="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Est. Kebutuhan"
+                                android:textSize="13sp"
+                                android:textColor="@color/abu_teks"/>
+                            <TextView
+                                android:id="@+id/tvEstKebutuhan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0 baglog"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/oranye_aksen"/>
+                            <!-- Subtitle dinamis: "di bulan Mei 2026" (bulan+1) -->
+                            <TextView
+                                android:id="@+id/tvLabelEstKebutuhan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="di bulan depan"
+                                android:textSize="13sp"
+                                android:textColor="@color/abu_teks"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/abu_sedang"
+                        android:layout_marginBottom="12dp"/>
+
+                    <!-- Baris Bawah: Sudah Diproduksi + Perlu Diproduksi -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
+                        <!-- Kiri Bawah: Sudah Diproduksi -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:layout_marginEnd="6dp">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Rekomendasi"
-                                android:textSize="12sp"
+                                android:text="Sudah Diproduksi"
+                                android:textSize="13sp"
                                 android:textColor="@color/abu_teks"/>
                             <TextView
-                                android:id="@+id/tvBaglogRekomendasi"
+                                android:id="@+id/tvSudahDiproduksi"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="- baglog"
+                                android:text="0 baglog"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/biru_grafik"/>
+                            <!-- Subtitle dinamis: "di bulan April 2026" (bulan ini) -->
+                            <TextView
+                                android:id="@+id/tvLabelSudahDiproduksi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="bulan ini"
+                                android:textSize="13sp"
+                                android:textColor="@color/abu_teks"/>
+                            <ProgressBar
+                                android:id="@+id/progressProduksi"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="4dp"
+                                android:layout_marginTop="6dp"
+                                android:max="100"
+                                android:progress="0"
+                                android:progressTint="@color/biru_grafik"
+                                android:progressBackgroundTint="@color/abu_sedang"/>
+                            <TextView
+                                android:id="@+id/tvPersenProduksi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0% dari kebutuhan"
+                                android:textSize="13sp"
+                                android:textColor="@color/abu_teks"
+                                android:layout_marginTop="2dp"/>
                         </LinearLayout>
 
+                        <!-- Kanan Bawah: Perlu Diproduksi (Baglog Baru) -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -256,17 +363,43 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Baglog Baru"
-                                android:textSize="12sp"
+                                android:text="Perlu Diproduksi"
+                                android:textSize="13sp"
                                 android:textColor="@color/abu_teks"/>
                             <TextView
                                 android:id="@+id/tvBaglogBaru"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="- baglog"
+                                android:text="0 baglog"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/oranye_aksen"/>
+                            <!-- Subtitle dinamis: "di bulan April 2026" (bulan ini) -->
+                            <TextView
+                                android:id="@+id/tvLabelBaglogBaru"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="bulan ini"
+                                android:textSize="13sp"
+                                android:textColor="@color/abu_teks"/>
+
+                            <!-- Tombol Produksi Sekarang -->
+                            <TextView
+                                android:id="@+id/btnSegeraSiapkan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:text="↑ Produksi Sekarang"
+                                android:textSize="13sp"
+                                android:textColor="@color/oranye_aksen"
+                                android:background="@drawable/bg_btn_oranye_outline"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:clickable="true"
+                                android:focusable="true"/>
+
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

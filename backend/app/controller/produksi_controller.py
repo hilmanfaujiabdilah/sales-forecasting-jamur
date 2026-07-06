@@ -1,8 +1,10 @@
+from sqlalchemy import select, func
+from config import get_session
 from flask import Blueprint, request
-from datetime import datetime
 from app.models.rekomendasi_model import RekomendasiModel
 from app.models.produksi_model import ProduksiModel
 from app.utils import response_error, response_sukses
+from app.models.orm_tables import Produksi
 
 produksi_bp = Blueprint("produksi", __name__, url_prefix="/api/produksi")
 
@@ -65,7 +67,84 @@ def get_agregasi_bulanan():
     except Exception as e:
         return response_error(pesan="Gagal mengambil data agregasi produksi", detail=str(e), kode=500)
 
-# Tambah endpoint baru di bawah endpoint yang sudah ada
+# @produksi_bp.route("/periode-dengan-rekomendasi", methods=['GET'])
+# def get_periode_dengan_rekomendasi():
+#     try:
+#         from app.models.orm_tables import Rekomendasi, Prediksi
+#         with get_session() as session:
+#             hasil = session.execute(
+#                 select(
+#                     Rekomendasi.rekomendasi_id,
+#                     Prediksi.periode_prediksi,
+#                 )
+#                 .join(Prediksi, Rekomendasi.prediksi_id == Prediksi.prediksi_id)
+#                 .order_by(Prediksi.periode_prediksi)
+#             ).all()
+#
+#             data = [
+#                 {
+#                     "bulan": r.periode_prediksi.month,
+#                     "tahun": r.periode_prediksi.year,
+#                     "rekomendasi_id": r.rekomendasi_id,
+#                 }
+#                 for r in hasil
+#             ]
+#         return response_sukses(data)
+#     except Exception as e:
+#         return response_error(pesan=str(e), kode=500)
+
+@produksi_bp.route("/periode-dengan-rekomendasi", methods=['GET'])
+def get_periode_dengan_rekomendasi():
+    try:
+        from app.models.orm_tables import Rekomendasi, Prediksi
+        with get_session() as session:
+
+            # 1. Ambil periode dari produksi aktual
+            produksi_periode = session.execute(
+                select(
+                    func.date_trunc("month", Produksi.tanggal_produksi).label("periode"),
+                    func.sum(Produksi.jumlah_produksi).label("total")  # ← tambah kolom kedua
+                )
+                .where(Produksi.deleted_at.is_(None))
+                .group_by(func.date_trunc("month", Produksi.tanggal_produksi))
+                .order_by(func.date_trunc("month", Produksi.tanggal_produksi))
+            ).all()
+
+            # 2. Ambil rekomendasi beserta periode prediksinya
+            rekomendasi_list = session.execute(
+                select(
+                    Rekomendasi.rekomendasi_id,
+                    Prediksi.periode_prediksi
+                )
+                .join(Prediksi, Rekomendasi.prediksi_id == Prediksi.prediksi_id)
+            ).all()
+
+            # 3. Buat map (bulan, tahun) -> rekomendasi_id
+            rek_map = {
+                (r.periode_prediksi.month, r.periode_prediksi.year): r.rekomendasi_id
+                for r in rekomendasi_list
+            }
+
+            # 4. Gabungkan semua periode unik
+            semua_periode = set()
+            for p in produksi_periode:
+                semua_periode.add((p.periode.month, p.periode.year))
+            for (bulan, tahun) in rek_map.keys():
+                semua_periode.add((bulan, tahun))
+
+            # 5. Susun response
+            hasil = [
+                {
+                    "bulan": bulan,
+                    "tahun": tahun,
+                    "rekomendasi_id": rek_map.get((bulan, tahun)),
+                }
+                for bulan, tahun in sorted(semua_periode)
+            ]
+
+        return response_sukses(hasil)
+    except Exception as e:
+        return response_error(pesan=str(e), kode=500)
 
 @produksi_bp.route("/<int:produksi_id>", methods=["DELETE"])
 def hapus_produksi(produksi_id: int):

@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_absolute_error, root_mean_squared_error, mean_absolute_percentage_error
+from sklearn.metrics import mean_absolute_error, root_mean_squared_error, mean_absolute_percentage_error, r2_score
 
 class ModelRegresi:
 
@@ -30,11 +30,13 @@ class ModelRegresi:
         mae = mean_absolute_error(y_aktual, y_pred)
         rmse = root_mean_squared_error(y_aktual, y_pred)
         mape = mean_absolute_percentage_error(y_aktual, y_pred) * 100
+        r2 = r2_score(y_aktual, y_pred)
 
         return {
             "mae": round(float(mae), 4),
             "rmse": round(float(rmse), 4),
             "mape": round(float(mape), 4),
+            "r2": round(float(r2), 4),
         }
 
     def is_model_trained(self) -> bool:

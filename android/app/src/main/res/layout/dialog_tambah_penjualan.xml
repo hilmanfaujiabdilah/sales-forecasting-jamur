@@ -30,6 +30,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilJumlah"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Jumlah Penjualan (kg)"
@@ -55,6 +56,85 @@
             android:layout_height="wrap_content"
             android:focusable="false"/>
     </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/panelTambahKumbung"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_panel_kumbung"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone">
+
+        <!-- Label panel -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tambah Kumbung Baru"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/hijau_utama"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Input nama kumbung baru -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilNamaKumbung"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama Kumbung"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNamaKumbung"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:imeOptions="actionDone"
+                android:maxLines="1"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Row tombol + progress -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end|center_vertical">
+
+            <!-- Progress kecil saat loading -->
+            <ProgressBar
+                android:id="@+id/progressKumbung"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"/>
+
+            <!-- Batal -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBatalKumbung"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Batal"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textColor="@color/abu_teks"
+                android:layout_marginEnd="4dp"/>
+
+            <!-- Simpan kumbung -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSimpanKumbung"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simpan"
+                android:backgroundTint="@color/hijau_utama"
+                style="@style/Widget.MaterialComponents.Button"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Margin bawah sebelum tombol aksi utama -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

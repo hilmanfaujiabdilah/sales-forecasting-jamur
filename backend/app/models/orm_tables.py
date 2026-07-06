@@ -65,6 +65,7 @@ class Prediksi(Base):
     nilai_mae:        Mapped[float]    = mapped_column(Float, nullable=False)
     nilai_rmse:       Mapped[float]    = mapped_column(Float, nullable=False)
     nilai_mape:       Mapped[float]    = mapped_column(Float, nullable=False)
+    nilai_r2:         Mapped[float]    = mapped_column(Float, nullable=True)
     created_at:       Mapped[datetime] = mapped_column(DateTime, nullable=False, server_default=func.now())
     updated_at:       Mapped[datetime] = mapped_column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
@@ -83,6 +84,7 @@ class Prediksi(Base):
             "nilai_mae":        self.nilai_mae,
             "nilai_rmse":       self.nilai_rmse,
             "nilai_mape":       self.nilai_mape,
+            "nilai_r2":         self.nilai_r2,
             "created_at":       str(self.created_at),
         }
 

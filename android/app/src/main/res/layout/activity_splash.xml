@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/splash_bg">
+
+    <!-- ═══════════════════════════════════════════════════════
+         DECORATIVE: Lingkaran pojok kanan atas (2 lapis)
+         ═══════════════════════════════════════════════════════ -->
+    <View
+        android:id="@+id/circleTopRight1"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:background="@drawable/shape_circle_overlay"
+        android:alpha="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="-60dp"
+        android:layout_marginTop="-40dp"/>
+
+    <View
+        android:id="@+id/circleTopRight2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/shape_circle_overlay_light"
+        android:alpha="0.3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="-20dp"
+        android:layout_marginTop="-10dp"/>
+
+    <!-- ═══════════════════════════════════════════════════════
+         DECORATIVE: Lingkaran pojok kiri bawah (2 lapis)
+         ═══════════════════════════════════════════════════════ -->
+    <View
+        android:id="@+id/circleBottomLeft1"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/shape_circle_overlay"
+        android:alpha="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="-70dp"
+        android:layout_marginBottom="-60dp"/>
+
+    <View
+        android:id="@+id/circleBottomLeft2"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@drawable/shape_circle_overlay_light"
+        android:alpha="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="-20dp"
+        android:layout_marginBottom="-10dp"/>
+
+    <!-- ═══════════════════════════════════════════════════════
+         DECORATIVE: Grid dots kiri atas (sesuai desain SVG)
+         ═══════════════════════════════════════════════════════ -->
+    <com.example.tiracast.widget.DotsGridView
+        android:id="@+id/dotsGrid"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        android:alpha="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="80dp"/>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CENTER GROUP: Logo + Teks (animasi scale+fade)
+         ═══════════════════════════════════════════════════════ -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/centerGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="60dp">
+
+        <!-- Lingkaran glow luar (144dp, opacity 10%) -->
+        <View
+            android:id="@+id/glowOuter"
+            android:layout_width="144dp"
+            android:layout_height="144dp"
+            android:background="@drawable/shape_glow_outer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <!-- Lingkaran glow dalam (120dp, opacity 15%) -->
+        <View
+            android:id="@+id/glowInner"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/shape_glow_inner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="12dp"/>
+
+        <!-- Logo icon (jamur + bar chart) -->
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_tiracast_logo"
+            android:contentDescription="TiraCast Logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="32dp"/>
+
+        <!-- Nama aplikasi -->
+        <TextView
+            android:id="@+id/tvAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TiraCast"
+            android:textColor="@color/putih"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/glowOuter"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Tagline -->
+        <TextView
+            android:id="@+id/tvTagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prediksi Penjualan Jamur Tiram Cerdas"
+            android:textColor="@color/splash_tagline"
+            android:textSize="13sp"
+            android:letterSpacing="0.03"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvAppName"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Divider -->
+        <View
+            android:id="@+id/divider"
+            android:layout_width="80dp"
+            android:layout_height="0.5dp"
+            android:background="@color/splash_divider"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTagline"/>
+
+        <!-- Versi aplikasi -->
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Versi 1.0.0"
+            android:textColor="@color/splash_version"
+            android:textSize="11sp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- ═══════════════════════════════════════════════════════
+         LOADING DOTS (animasi berkedip)
+         ═══════════════════════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/loadingDots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="80dp">
+
+        <View
+            android:id="@+id/dot1"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/shape_dot_active"
+            android:layout_marginEnd="8dp"/>
+
+        <View
+            android:id="@+id/dot2"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/shape_dot_mid"
+            android:layout_marginEnd="8dp"/>
+
+        <View
+            android:id="@+id/dot3"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/shape_dot_dark"/>
+
+    </LinearLayout>
+
+    <!-- Loading text -->
+    <TextView
+        android:id="@+id/tvLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Memuat aplikasi..."
+        android:textColor="@color/splash_tagline"
+        android:textSize="11sp"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loadingDots"
+        android:layout_marginTop="10dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

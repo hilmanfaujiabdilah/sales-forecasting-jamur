@@ -12,9 +12,9 @@
         android:orientation="vertical"
         android:background="@color/abu_terang">
 
-        <!-- Card Info Rekomendasi -->
+        <!-- Card Grafik Agregasi -->
         <androidx.cardview.widget.CardView
-            style="@style/CardHijau"
+            style="@style/CardPutih"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_sedang">
@@ -22,50 +22,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:padding="@dimen/margin_sedang">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Total Baglog Direkomendasikan"
-                        android:textSize="11sp"
-                        android:textColor="@color/hijau_gelap"/>
-                    <TextView
-                        android:id="@+id/tvTotalRekomendasiBaglog"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/hijau_gelap"/>
-                </LinearLayout>
+                    android:text="Total Produksi Bulanan"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/hijau_gelap"
+                    android:layout_marginBottom="8dp"/>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Baglog Baru"
-                        android:textSize="11sp"
-                        android:textColor="@color/hijau_gelap"/>
-                    <TextView
-                        android:id="@+id/tvBaglogBaruHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/oranye_aksen"/>
-                </LinearLayout>
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/chartAgregasi"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -74,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pilih Periode Produksi"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="@color/teks_utama"
             android:paddingHorizontal="@dimen/margin_sedang"

@@ -33,14 +33,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Total Realisasi Produksi"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textColor="@color/hijau_gelap"/>
                     <TextView
                         android:id="@+id/tvTotalPenjualan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0 kg"
-                        android:textSize="22sp"
+                        android:text="0 Baglog"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/hijau_gelap"/>
                 </LinearLayout>
@@ -53,15 +53,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Prediksi Periode"
-                        android:textSize="12sp"
+                        android:text="Rekomendasi Produksi"
+                        android:textSize="14sp"
                         android:textColor="@color/hijau_gelap"/>
                     <TextView
-                        android:id="@+id/tvPrediksiPeriode"
+                        android:id="@+id/tvRekomendasiBaglog"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="- kg"
-                        android:textSize="22sp"
+                        android:text="0 Baglog"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="@color/oranye_aksen"/>
                 </LinearLayout>
@@ -70,7 +70,7 @@
 
         <!-- List Produksi Harian -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPenjualan"
+            android:id="@+id/rvProduksi"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -83,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Belum ada data produksi di periode ini"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColor="@color/abu_teks"
             android:gravity="center"
             android:padding="@dimen/margin_besar"
@@ -106,7 +106,7 @@
         android:layout_margin="@dimen/margin_sedang"
         android:text="Tambah Produksi"
         app:icon="@drawable/ic_tambah"
-        android:backgroundTint="@color/biru_grafik"
+        android:backgroundTint="@color/hijau_utama"
         android:textColor="@color/putih"
         app:iconTint="@color/putih"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -8,13 +8,13 @@
 
     <fragment
         android:id="@+id/berandaFragment"
-        android:name="com.example.salesforecastingjamur.ui.beranda.BerandaFragment"
+        android:name="com.example.salesforecastingapps.ui.beranda.BerandaFragment"
         android:label="Beranda"
         tools:layout="@layout/fragment_beranda"/>
 
     <fragment
         android:id="@+id/penjualanFragment"
-        android:name="com.example.salesforecastingjamur.ui.penjualan.PenjualanFragment"
+        android:name="com.example.salesforecastingapps.ui.penjualan.PenjualanFragment"
         android:label="Penjualan"
         tools:layout="@layout/fragment_penjualan">
         <action
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/detailPenjualanFragment"
-        android:name="com.example.salesforecastingjamur.ui.penjualan.DetailPenjualanFragment"
+        android:name="com.example.salesforecastingapps.ui.penjualan.DetailPenjualanFragment"
         android:label="Detail Penjualan"
         tools:layout="@layout/fragment_detail_penjualan">
         <argument
@@ -45,7 +45,7 @@
 
     <fragment
         android:id="@+id/prediksiFragment"
-        android:name="com.example.salesforecastingjamur.ui.prediksi.PrediksiFragment"
+        android:name="com.example.salesforecastingapps.ui.prediksi.PrediksiFragment"
         android:label="Prediksi"
         tools:layout="@layout/fragment_prediksi">
         <action
@@ -55,7 +55,7 @@
 
     <fragment
         android:id="@+id/detailPrediksiFragment"
-        android:name="com.example.salesforecastingjamur.ui.prediksi.DetailPrediksiFragment"
+        android:name="com.example.salesforecastingapps.ui.prediksi.DetailPrediksiFragment"
         android:label="Detail Prediksi"
         tools:layout="@layout/fragment_detail_prediksi">
         <argument
@@ -68,7 +68,7 @@
 
     <fragment
         android:id="@+id/produksiFragment"
-        android:name="com.example.salesforecastingjamur.ui.produksi.ProduksiFragment"
+        android:name="com.example.salesforecastingapps.ui.produksi.ProduksiFragment"
         android:label="Produksi"
         tools:layout="@layout/fragment_produksi">
         <action
@@ -78,7 +78,7 @@
 
     <fragment
         android:id="@+id/detailProduksiFragment"
-        android:name="com.example.salesforecastingjamur.ui.produksi.DetailProduksiFragment"
+        android:name="com.example.salesforecastingapps.ui.produksi.DetailProduksiFragment"
         android:label="Detail Produksi"
         tools:layout="@layout/fragment_detail_produksi">
         <argument

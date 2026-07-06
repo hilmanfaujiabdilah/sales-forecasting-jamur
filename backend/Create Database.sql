@@ -4,12 +4,14 @@
 
 
 -- 1. Table Kumbung
+
 create table kumbung(
 	kumbung_id serial primary key,
 	nama_kumbung varchar(100) not null
 );
 
 -- 2. Tabel Penjualan
+
 create table penjualan(
 	penjualan_id serial primary key,
 	tanggal_penjualan date not null,
@@ -18,6 +20,7 @@ create table penjualan(
 	prediksi_id int not null,
 	created_at timestamp not null default now(),
 	updated_at timestamp not null default now(),
+	deleted_at timestamp null,
 
 	CONSTRAINT fk_penjualan_kumbung
 		foreign key (kumbung_id)
@@ -33,6 +36,7 @@ create table penjualan(
 );
 
 -- 3. Tabel Prediksi
+
 create table prediksi(
 	prediksi_id serial primary key,
 	periode_prediksi date not null,
@@ -49,6 +53,7 @@ create table prediksi(
 
 
 -- 4. Tabel Rekomendasi
+
 create table rekomendasi(
 	rekomendasi_id serial primary key,
 	est_kebutuhan_baglog int not null ,
@@ -67,6 +72,7 @@ create table rekomendasi(
 );
 
 -- 5. Tabel Jenis Bahan Baku
+
 create table jenis_bahan_baku(
 	jenis_bahan_baku_id serial primary key,
 	nama_bahan_baku varchar(100) not null unique,
@@ -75,6 +81,7 @@ create table jenis_bahan_baku(
 
 
 -- 6. Tabel Kebutuhan Bahan Baku
+
 create table bahan_baku(
 	bahan_baku_id serial primary key,
 	jumlah_bahan_baku float not null check(jumlah_bahan_baku >=0 ),
@@ -100,6 +107,7 @@ create table bahan_baku(
 );
 
 -- 7. Tabel Produksi
+
 create table produksi(
 	produksi_id serial primary key,
 	tanggal_produksi date not null,
@@ -107,6 +115,7 @@ create table produksi(
 	rekomendasi_id int not null,
 	created_at timestamp not null default now(),
 	updated_at timestamp not null default now(),
+	deleted_at timestamp null,
 
 	constraint fk_produksi_rekomendasi
 		foreign key (rekomendasi_id)

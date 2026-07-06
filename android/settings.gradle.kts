@@ -14,5 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Sales Forecasting Jamur"
+rootProject.name = "SalesForecastingApps"
 include(":app")
+ 

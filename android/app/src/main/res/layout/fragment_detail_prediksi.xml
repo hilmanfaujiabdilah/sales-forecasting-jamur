@@ -28,47 +28,262 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
                     android:text="Hasil Prediksi"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/hijau_utama"
-                    android:layout_marginBottom="12dp"/>
+                    android:textColor="@color/hijau_utama" />
 
                 <!-- Periode & Prediksi -->
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
-                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Prediksi Periode 1" android:textSize="12sp" android:textColor="@color/abu_teks"/>
-                        <TextView android:id="@+id/tvPredPeriode1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/hijau_utama"/>
-                        <TextView android:id="@+id/tvLabelPeriode1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="11sp" android:textColor="@color/abu_teks"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Prediksi Periode 1"
+                            android:textSize="14sp"
+                            android:textColor="@color/abu_teks" />
+
+                        <TextView
+                            android:id="@+id/tvPredPeriode1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/hijau_utama"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvLabelPeriode1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="14sp"
+                            android:textColor="@color/abu_teks" />
+
                     </LinearLayout>
-                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Prediksi Periode 2" android:textSize="12sp" android:textColor="@color/abu_teks"/>
-                        <TextView android:id="@+id/tvPredPeriode2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/oranye_aksen"/>
-                        <TextView android:id="@+id/tvLabelPeriode2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="11sp" android:textColor="@color/abu_teks"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Prediksi Periode 2"
+                            android:textSize="14sp"
+                            android:textColor="@color/abu_teks" />
+
+                        <TextView
+                            android:id="@+id/tvPredPeriode2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/oranye_aksen" />
+
+                        <TextView
+                            android:id="@+id/tvLabelPeriode2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="14sp"
+                            android:textColor="@color/abu_teks" />
+
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <!-- Divider -->
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/abu_sedang" android:layout_marginBottom="12dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@color/abu_sedang" />
 
-                <!-- Nilai Error -->
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Nilai Error Model" android:textSize="13sp" android:textStyle="bold" android:textColor="@color/teks_utama" android:layout_marginBottom="8dp"/>
+                <!-- Nilai Error + ikon info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@color/hijau_latar" android:padding="8dp" android:layout_marginEnd="4dp">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MAE" android:textSize="11sp" android:textColor="@color/abu_teks"/>
-                        <TextView android:id="@+id/tvMae" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="15sp" android:textStyle="bold" android:textColor="@color/hijau_gelap"/>
-                    </LinearLayout>
-                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@color/hijau_latar" android:padding="8dp" android:layout_marginEnd="4dp">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="RMSE" android:textSize="11sp" android:textColor="@color/abu_teks"/>
-                        <TextView android:id="@+id/tvRmse" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="15sp" android:textStyle="bold" android:textColor="@color/hijau_gelap"/>
-                    </LinearLayout>
-                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:background="@color/hijau_latar" android:padding="8dp">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MAPE" android:textSize="11sp" android:textColor="@color/abu_teks"/>
-                        <TextView android:id="@+id/tvMape" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="15sp" android:textStyle="bold" android:textColor="@color/hijau_gelap"/>
-                    </LinearLayout>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Nilai Kesalahan Prediksi"
+                        android:textColor="@color/hijau_utama"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/btnInfoError"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="Penjelasan nilai kesalahan"
+                        android:src="@drawable/ic_info_outline" />
+
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/layoutMae"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="4dp"
+                        android:background="@color/hijau_latar"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="MAE"
+                            android:textSize="12sp"
+                            android:textColor="@color/abu_teks" />
+
+                        <TextView
+                            android:id="@+id/tvMae"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/hijau_gelap" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutRmse"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="4dp"
+                        android:background="@color/hijau_latar"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="RMSE"
+                            android:textSize="13sp"
+                            android:textColor="@color/abu_teks" />
+
+                        <TextView
+                            android:id="@+id/tvRmse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/hijau_gelap" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutMape"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="4dp"
+                        android:background="@color/hijau_latar"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="MAPE"
+                            android:textSize="13sp"
+                            android:textColor="@color/abu_teks" />
+
+                        <TextView
+                            android:id="@+id/tvMape"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/hijau_gelap" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutR2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/hijau_latar"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="R²"
+                            android:textSize="13sp"
+                            android:textColor="@color/abu_teks" />
+
+                        <TextView
+                            android:id="@+id/tvR2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/hijau_gelap" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Kesimpulan otomatis nilai kesalahan prediksi -->
+                <TextView
+                    android:id="@+id/tvKesimpulanError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:padding="10dp"
+                    android:background="@color/hijau_latar"
+                    android:lineSpacingExtra="3dp"
+                    android:text="-"
+                    android:textColor="@color/teks_utama"
+                    android:textSize="13sp" />
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
 
         <!-- Card Rekomendasi Baglog -->
@@ -84,23 +299,96 @@
                 android:orientation="vertical"
                 android:padding="@dimen/margin_sedang">
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Rekomendasi Produksi" android:textSize="15sp" android:textStyle="bold" android:textColor="@color/biru_grafik" android:layout_marginBottom="12dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Rekomendasi Produksi"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/biru_grafik" />
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Kebutuhan Baglog" android:textSize="11sp" android:textColor="@color/abu_teks"/>
-                        <TextView android:id="@+id/tvKebutuhanBaglog" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="18sp" android:textStyle="bold" android:textColor="@color/biru_grafik"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kebutuhan Baglog"
+                            android:textSize="13sp"
+                            android:textColor="@color/abu_teks" />
+
+                        <TextView
+                            android:id="@+id/tvKebutuhanBaglog"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/biru_grafik" />
+
                     </LinearLayout>
-                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Baglog Aktif" android:textSize="11sp" android:textColor="@color/abu_teks"/>
-                        <TextView android:id="@+id/tvBaglogAktif" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="18sp" android:textStyle="bold" android:textColor="@color/hijau_utama"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Baglog Tersedia"
+                            android:textSize="13sp"
+                            android:textColor="@color/abu_teks" />
+
+                        <TextView
+                            android:id="@+id/tvBaglogAktif"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/hijau_utama" />
+
                     </LinearLayout>
-                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Baglog Baru" android:textSize="11sp" android:textColor="@color/abu_teks"/>
-                        <TextView android:id="@+id/tvBaglogBaru" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="18sp" android:textStyle="bold" android:textColor="@color/oranye_aksen"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Baglog Baru"
+                            android:textSize="13sp"
+                            android:textColor="@color/abu_teks" />
+
+                        <TextView
+                            android:id="@+id/tvBaglogBaru"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/oranye_aksen" />
+
                     </LinearLayout>
+
                 </LinearLayout>
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
 
         <!-- Card Bahan Baku -->
@@ -115,13 +403,76 @@
                 android:orientation="vertical"
                 android:padding="@dimen/margin_sedang">
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Kebutuhan Bahan Baku" android:textSize="15sp" android:textStyle="bold" android:textColor="@color/teks_utama" android:layout_marginBottom="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kebutuhan Bahan Baku"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/teks_utama"
+                    android:layout_marginBottom="8dp"/>
+
+                <!-- ↓ HEADER KOLOM (BARU) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="4dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="2dp">
+
+                    <!-- Spacer sejajar dot -->
+                    <View
+                        android:layout_width="20dp"
+                        android:layout_height="1dp"/>
+
+                    <!-- Header Nama Bahan -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Nama Bahan"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/abu_teks"/>
+
+                    <!-- Header Jumlah -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jumlah"
+                        android:gravity="end"
+                        android:layout_marginEnd="8dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/abu_teks"/>
+
+                    <!-- Header Satuan (lebar sama dengan tvSatuan di item) -->
+                    <TextView
+                        android:layout_width="52dp"
+                        android:layout_height="wrap_content"
+                        android:text="Satuan"
+                        android:gravity="end"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/abu_teks"/>
+
+                </LinearLayout>
+
+                <!-- Divider bawah header -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/abu_sedang"
+                    android:layout_marginBottom="4dp"/>
+                <!-- ↑ HEADER KOLOM (BARU) -->
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvBahanBaku"
+                    android:id="@+id/tvBahanBaku"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"/>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>

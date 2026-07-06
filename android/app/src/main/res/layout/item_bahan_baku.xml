@@ -18,14 +18,24 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="14sp"
+        android:textSize="14.5sp"
         android:textColor="@color/teks_utama"/>
 
     <TextView
         android:id="@+id/tvJumlahBahan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:gravity="end"
+        android:textSize="14.5sp"
         android:textStyle="bold"
         android:textColor="@color/hijau_gelap"/>
+
+    <TextView
+        android:id="@+id/tvSatuan"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:textSize="14.5sp"
+        android:textColor="@color/hijau_gelap"/>
+
 </LinearLayout>

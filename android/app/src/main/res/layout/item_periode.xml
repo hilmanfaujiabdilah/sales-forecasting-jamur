@@ -32,7 +32,7 @@
                 android:id="@+id/tvNamaBulan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="15.5sp"
                 android:textStyle="bold"
                 android:textColor="@color/teks_utama"/>
 
@@ -40,7 +40,7 @@
                 android:id="@+id/tvTahun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 android:textColor="@color/abu_teks"/>
         </LinearLayout>
 

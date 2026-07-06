@@ -19,4 +19,15 @@
     <color name="merah_error">#C62828</color>
     <color name="teks_utama">#212121</color>
     <color name="teks_sekunder">#616161</color>
+
+<!--    Splash -->
+    <color name="splash_bg">#1B4D2E</color>
+    <color name="splash_tagline">#95D5B2</color>
+    <color name="splash_version">#74C69D</color>
+    <color name="splash_divider">#52B788</color>
+    <color name="splash_overlay">#2D6A4F</color>
+    <color name="splash_overlay_light">#40916C</color>
+    <color name="splash_dot_active">#52B788</color>
+    <color name="splash_dot_mid">#40916C</color>
+    <color name="splash_dot_dark">#2D6A4F</color>
 </resources>

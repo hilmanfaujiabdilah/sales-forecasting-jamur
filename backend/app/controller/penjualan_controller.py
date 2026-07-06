@@ -6,7 +6,7 @@ from app.utils.response import response_error, response_sukses
 
 penjualan_bp = Blueprint("penjualan", __name__, url_prefix="/api/penjualan")
 
-_FIELD_WAJIB = ["tanggal_penjualan", "jumlah_penjualan", "kumbung_id", "prediksi_id"]
+_FIELD_WAJIB = ["tanggal_penjualan", "jumlah_penjualan", "kumbung_id"] # "prediksi_id"
 
 def validasi_data(d: dict) -> bool:
     return all(field in d and d[field] is not None for field in _FIELD_WAJIB)

@@ -29,7 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total Penjualan Bulanan"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/hijau_gelap"
                     android:layout_marginBottom="8dp"/>
@@ -37,7 +37,7 @@
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/chartAgregasi"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"/>
+                    android:layout_height="200dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -45,8 +45,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pilih Bulan"
-            android:textSize="14sp"
+            android:text="Pilih Periode Penjualan"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="@color/teks_utama"
             android:paddingHorizontal="@dimen/margin_sedang"
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Belum ada data penjualan"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColor="@color/abu_teks"
             android:gravity="center"
             android:padding="@dimen/margin_besar"

@@ -26,7 +26,7 @@
                 android:id="@+id/tvTanggal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="15.5sp"
                 android:textStyle="bold"
                 android:textColor="@color/teks_utama"/>
 
@@ -34,7 +34,7 @@
                 android:id="@+id/tvKumbung"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textColor="@color/abu_teks"/>
         </LinearLayout>
 
@@ -42,8 +42,9 @@
             android:id="@+id/tvJumlah"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="15.5sp"
             android:textStyle="bold"
             android:textColor="@color/hijau_utama"/>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
